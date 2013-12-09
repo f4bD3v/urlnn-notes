@@ -62,12 +62,23 @@ A model mimics the behaviour of the environment. \textit{For example, given a st
 Genetic algorithms, genetic programming, simulated annealing, and other function optimization methods have also been used to solve reinforcement learning problems. These methods search directly in the space of policies without ever appealing to value functions. We call these \textbf{evolutionary methods} because their operation is analogous to the way biological evolution produces organisms with skilled behaviour even when they do not learn during their individual lifetimes (organisms that have chosen adaptive policies survive). Effective when space of policies is sufficiently small or accurately sensing the state of the environment is impossible.
 
 \subsection{Bellmann Equation}
+\[
+	Q(s,a) = \sum_{s'}P_{s \rightarrow s'}^a * [R_{s \rightarrow s'} + \gamma \sum_{a'} \pi(s',a')Q(s',a')]
+\]
+which we can write in form of the value function as:
+
+\[
+	V^{\pi}(s) = \sum_a \pi(s,a) \sum_{s'} P_{s \rightarrow s'}^a[R_{s \rightarrow s'}^a + \gamma V^{\pi}(s')]
+\]
+
 
 \subsection{On-policy vs off-policy learning}
 \subsection{Eligibility traces}
+Look farther into the future: An eligibility trace is a temporary record of the occurrence of an event, such as the visiting of a state or the taking of an action (backward view). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes. The more theoretical view is that they are a bridge from TD to Monte Carlo methods
+
 
 \section{Energy-Based Models (EBM)}
-A scalar energy is associated to each configuration of the variables of interest in the model. Learning then corresponds to modifying the energy function so that its shape has desirable properties, for example we would like desirable configurations to have low energy. The probabilistic distribution of for the model is define by an energy function:
+A scalar energy is associated to each configuration of the variables of interest in the model (cost function). Learning then corresponds to modifying the energy function so that its shape has desirable properties, for example we would like desirable configurations to have low energy. The probabilistic distribution of for the model is define by an energy function:
 \[
 	p(x)=\frac{\exp(-E(x))}{Z}
 \]
@@ -90,7 +101,7 @@ we can the rewrite the probability distribution in the condensed of the gibbs di
 \]
 
 \subsection{Restricted Boltzmann Machines (RBM)}
-Boltzmann Machines (BMs) are a particular form of log-linear (Gibbs distribution) Markov Random Fields (MRF), where the energy function is linear in its free parameters. In order to represent complicated distributions (limited parametric setting $\rightarrow$ non-parametric setting) we consider some of the variables to be hidden (not observed). One can increase the modelling capacity of the Boltzmann Machine (BM) by adding for hidden variables/units. Furthermore a RBM is restricted to a bipartite Graph, because there no lateral connections visible-visible and hidden-hidden are allowed. We introduce the notation of $v=x$ for visible units and $h=y$ for hidden units.\\
+Boltzmann Machines (BMs) are a particular form of log-linear (Gibbs distribution) Markov Random Fields (MRF), where the energy function is linear in its free parameters. In order to represent complicated distributions (limited parametric setting $\rightarrow$ non-parametric setting) we consider some of the variables to be hidden (not observed). One can increase the modeling capacity of the Boltzmann Machine (BM) by adding for hidden variables/units. Furthermore a RBM is restricted to a bipartite Graph, because there no lateral connections visible-visible and hidden-hidden are allowed. We introduce the notation of $v=x$ for visible units and $h=y$ for hidden units.\\
 The energy function therefore is defined as:
 \[
 	E(v,h)=-b^{t}v-c^{t}h-h^{t}W_{u,v}u
@@ -102,6 +113,8 @@ By plugging in the energy function we get the following representation of the fr
 \]
 
 Because of the specific structure of RBMs, visible and hidden units are conditionally independent of one-another 
+
+A particular set of ''synaptic'' weights is said to constitute a perfect model of the environmental structure if it leads to exactly the same probability distribution of the states of the visible units as when these units are clamped by the environmental input vectors.
 
 \subsubsection*{RBMs with binary units}
 Commonly RBMs are studied with binary units $v_i, h_i \in \{0,1\}$ ...
@@ -116,4 +129,7 @@ sigmoid function (sigm):
 \[
 	\sigma(t)=sig(t)=\frac{1}{1+\exp(-t)}=\frac{1}{2}\cdot(1+\tanh(\frac{t}{2}))
 \]
+
+\subsection{Temporal Difference TD($\lambda$)}
+
 \end{document}
