@@ -102,12 +102,15 @@ which we can write in form of the value function as:
 	V^{\pi}(s) = \sum_a \pi(s,a) \sum_{s'} P_{s \rightarrow s'}^a[R_{s \rightarrow s'}^a + \gamma V^{\pi}(s')]
 \]
 
-
 \subsection{On-policy vs off-policy learning}
+On-policy means SARSA; off-policy means Q-learning. The difference lies in the method how to compute $Q(s,a)$. While for SARSA, we use the policy for the discounted term $\gamma \sum_{a'} \pi(s',a')Q(s',a')$, the Q-learning algo simply does $\gamma * max_{a'}Q(s',a')$. Therefore, Q-learning uses greedy for update and the policy for action selection ($\eta$ -- greedy)
+
 \subsection{Eligibility traces}
+At the moment of the reward update, update also previous action values along trajectories. The problem is that learning is very slow and the information diffusion across several states takes time.
+
 Look farther into the future: An eligibility trace is a temporary record of the occurrence of an event, such as the visiting of a state or the taking of an action (backward view). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes. The more theoretical view is that they are a bridge from TD to Monte Carlo methods.
 
-At the moment of the reward update, update also previous action values along trajectories.
+
 
 \subsection{Continuous states}
 
