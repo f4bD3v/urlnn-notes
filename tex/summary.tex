@@ -32,10 +32,10 @@ Kohonen learning rule
 \section{Reinforcement learning}
 
 \paragraph{RL vs. supervised learning}
-Supervised learning, used in statistical pattern recognition and artifical neural networks is learning from examples provided by a knowledgable external supervisor whereas in RL an agent is instructed to learn from its own experience.
+Supervised learning, used in statistical pattern recognition and artifical neural networks is learning from examples provided by a knowledgable external supervisor whereas in RL an agent is instructed to learn from its own experience. It is a ''behavioral'' learning problem: Through interaction between the learning system and its environment, whereas the system seeks to achieve a specific goal.
 
 \paragraph{trade-off exploration vs. exploitation}
-An agent has to exploit what it \textsc{already knows} in order to obtain a reward, but it also has to \textsc{explore} in order to make \textsc{better action selections} in the future. The agent must try a variety of actions and progressively favour those that appear to be best, because neither schemes can be pursued exclusively without failing a the task.
+An agent has to exploit what it \textsc{already knows} in order to obtain a reward, but it also has to \textsc{explore} in order to make \textsc{better action selections} in the future. The agent must try a variety of actions and progressively favour those that appear to be best, because neither schemes can be pursued exclusively without failing a the task. Estimate reward probabilities vs. take action to maximize reward.
 
 \paragraph{RLs main characteristic}
 RL explicitly considers the \textsc{whole} problem of a goal-directed agent \textsc{interacting} with an uncertain environment. All reinforcement learning agents have explicit goals, can sense aspects of their environments, and can choose actions to influence their environments. Moreover, it is usually assumed from the beginning that the agent has to operate despite significant \textsc{uncertainty about the environment} it faces. When reinforcement learning involves \textsc{planning}, it has to address the \textit{interplay between planning and real-time action selection}, as well as the question of how environmental models are acquired and improved.\\
@@ -45,14 +45,14 @@ An agent's actions are permitted to affect the future state of the environment (
 there are four main subelements of a reinforcement learning system.
 
 \subsubsection*{Policy}
-commonly denoted by $\pi$, it defines the learning agents way of behaving at a given time. Mapping from the perceived states of the environment to the actions that present themselves to the agent in these states. The policy alone is sufficient to determine the behaviour of an agent.
+commonly denoted by $\pi$, it defines the learning agents way of behaving at a given time. Mapping from the perceived states of the environment to the actions that present themselves to the agent in these states. The policy alone is sufficient to determine the behaviour of an agent. In oder words, a policy is a rule used by the learning system to decide what to do, given the current state of the environment.
 
 \subsubsection*{Reward function}
 defines the goal in a reinforcement learning problem. Maps each perceived state of the environment to a single number, a reward, which describes the intrinsic desirability of the state. The agent's sole objective is to maximize its total gain from the rewards it receives.\\
 The reward function may serve as a basis for altering the agent's policy.
 
 \subsubsection*{Value function}
-While the reward function indicates which actions are immediately beneficial to the agent, a \textbf{value function} specifies what is good for the agent in the long run. The value of a state is the \textsc{expected} total amount of rewards the agent will accumulate from this state onwards. \textit{ For example, a state might always yield a low immediate reward but still have a high value because it is regularly followed by other states that yield high rewards.}\\
+While the reward function indicates which actions are immediately beneficial to the agent, a \textbf{value function} specifies what is good for the agent in the long run. The value of a state is the \textsc{expected} total amount of rewards the agent will accumulate from this state onwards.
 For example, a state might always yield a low immediate reward but still have a high value because it is regularly followed by other states that yield high rewards.
 
 \subsubsection*{Model of the environment}
@@ -61,10 +61,41 @@ A model mimics the behaviour of the environment. \textit{For example, given a st
 \subsection{Evolutionary methods}
 Genetic algorithms, genetic programming, simulated annealing, and other function optimization methods have also been used to solve reinforcement learning problems. These methods search directly in the space of policies without ever appealing to value functions. We call these \textbf{evolutionary methods} because their operation is analogous to the way biological evolution produces organisms with skilled behaviour even when they do not learn during their individual lifetimes (organisms that have chosen adaptive policies survive). Effective when space of policies is sufficiently small or accurately sensing the state of the environment is impossible.
 
-\subsection{Bellmann Equation}
+\subsection{Reward-based action learning: Q-values}
+
+$Q(S,a)$ is the expected reward and can be written as $\sum_{s'} P_{s \overrightarrow s'}^a R_{s \overrightarrow s'}^a$. The optimal strategy is to take the action such that $Q(s,a^*) > Q(s, a_j)$. Q values are not known at the beginning, therefore, we need to learn them -> iteratively update. $\Delta Q(s,a) = \theta [r-Q(s,a)]$. If the mean update has converged, then $<\Delta Q(s,a)> = 0$
+
+There are different strategies:
+\begin{itemize}
+	\item Greedy strategy
+	\item $\eta$ - greedy strategy $P = 1 . \eta$
+	\item Softmax strategy $P(a') = \frac{exp{[\beta Q(a')]}}{\sum_a exp{[\beta Q(a)]}}$
+	\item Optimistic greedy (Q values too big at start)
+\end{itemize}
+
+\subsection{Bellmann Equation and Sarsa}
+Multi step horizon reward-based action learning!
+\[
+	\Delta Q(s,a) = \eta [r-(Q(s,a) - \gamma Q(s', a'))]
+\]
+We can use the Bellman equation to write $Q(s,a)$
 \[
 	Q(s,a) = \sum_{s'}P_{s \rightarrow s'}^a * [R_{s \rightarrow s'} + \gamma \sum_{a'} \pi(s',a')Q(s',a')]
 \]
+The Bellman equation can be used for the SARSA algorithm:
+\begin{enumerate}
+	\item Being in state s, chose action a according to policy
+	\item Observe reward r, next state s'
+	\item Choose action a' in state s' according to policy
+	\item Update $\Delta Q(s,a)$
+	\item s' -> s; a' -> a
+	\item Goto 1)
+\end{enumerate}
+We can rewrite the Bellman equation and express it as State values V.
+\[
+	V^{\pi}(s) = \sum_a \pi(s,a) \sum_{s'} P^a_{s \overrightarrow s'} [R^a_{s \overrightarrow s'} + \gamma * V^{\pi}(s')]
+\]
+
 which we can write in form of the value function as:
 
 \[
@@ -74,7 +105,12 @@ which we can write in form of the value function as:
 
 \subsection{On-policy vs off-policy learning}
 \subsection{Eligibility traces}
-Look farther into the future: An eligibility trace is a temporary record of the occurrence of an event, such as the visiting of a state or the taking of an action (backward view). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes. The more theoretical view is that they are a bridge from TD to Monte Carlo methods
+Look farther into the future: An eligibility trace is a temporary record of the occurrence of an event, such as the visiting of a state or the taking of an action (backward view). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes. The more theoretical view is that they are a bridge from TD to Monte Carlo methods.
+
+At the moment of the reward update, update also previous action values along trajectories.
+
+\subsection{Continuous states}
+
 
 
 \section{Energy-Based Models (EBM)}
