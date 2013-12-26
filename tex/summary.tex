@@ -1,4 +1,6 @@
 \documentclass[11pt]{article}
+\usepackage{color}
+\usepackage{comment}
 
 \begin{document}
 
@@ -18,8 +20,75 @@ $http://www.scholarpedia.org/article/Receptive_field$
 
 
 \section{Supervised vs. Unsupervised learning}
+\paragraph{Supervised learning} a system is trained for regression or classification via a set of labeled training data. The goal is to optimize the parameters of an objective function using the labeled data (How to correctly predict the labelling "l" or "f" of input patterns according to the training data?). Supervised learning is dealt with in Prof. Seegers class "Pattern Classification and Machine Learning".
+\paragraph{Unsupervised learning} In unsupervised learning one tries to extract patterns from the data without having any information about their classification/outputs. One therefore tries to detect the intrinsic structure of the data. (How does an hand-written "l" or "f" look like?). 
+\paragraph{Reinforcement learning}
+In this context an "agent" is employed and given a certain choice of actions and rewards upon chosing the correct action. The actions exist according to training input patterns (animal conditioning: a mouse sees an "l" or an "f" and chooses action $a_1$/$a_2$ accordingly and is given a reward upon success).
+Reinforcement learning can be either conducted in a supervised or an unsupervised manner.
 
 \section{Hebbian Learning Rule}
+\begin{itemize}
+\item time-dependent
+\item local
+\item strongly interactive
+\end{itemize}
+\subsection{Synaptic plasticity}
+%source: http://icwww.epfl.ch/~gerstner/SPNM/node71.html
+change in connection strength
+\begin{quote}{Hebb, 1949:}
+\textit{"When an \textcolor{red}{axon} of cell \textcolor{red}{j} repeatedly or persistently takes part in firing (through \textcolor{blue}{synapses} to \textcolor{green}{dendrites} of) cell \textcolor{green}{i}, then \textcolor{red}{j's} efficiency as one of the cells firing is increased"}.
+\end{quote}
+The Hebbian learning rule is a local \textsc{unsupervised learning} rule, because it depends solely on the states of the respective pre-synaptic i and post-synaptic j neurons and the present efficacy $w_{ij}$, but not on the state of other neurons k. The repsective pre-synaptic neurons and post-synaptic neuron can however be simultaneously active, so that correlations in their activity lead to firing of the neuronal cell \textcolor{red}{i}. In Hebbian learning these correlations are used to learn the synaptic transmission efficacies $w_{ij}$, so that in essence it is correlation-based learning.
+
+\subsection{Homeostatic plasticity}
+Homeostatic plasticity refers to the capacity of neurons to regulate their own excitability relative to network activity, a compensatory adjustment that occurs over the timescale of days. The term homeostatic plasticity derives from two opposing concepts: "homeostatic" (a product of the Greek words for "same" and "state" or "condition") and plasticity (or "change"), thus homeostatic plasticity means "staying the same through change."
+
+\subsection{Rate-based Hebbian Learning}
+\paragraph{Goal} is to find a mathematically formulated learning rule based on Hebb's postulate.\\
+We begin by focusing on a single synapse with efficacy $w_{ij}$ transmitting signals from a pre-synaptic neuron i to a post-synaptic neuron j. The activity ((mean) firing rate - average number of spikes per unit time) of i is denoted by $v_i$ and that of j by $v_j$. Based on the (1) \texttt{locality} aspect of Hebbian Learning we can write a general description of the change of the synaptic efficacy. 
+\[
+\frac{d}{dt}w_{ij}=\mathbf{F}(w_{ij}; v_j^{pre}, v_i^{post})
+\]
+The membrane potential is further uniquely defined by the postsynaptic firing rate $v_i = g(u_i)$ with a monotone gain function g and therefore doesn't have to be included in F.\\
+The (2) \texttt{cooperativity} aspect of Hebb's postulates implies that pre- and postsynaptic neuron have to be active simultaneously for a synaptic weight change to occur and this property can be used to learn something about the function F. Taylor series expansion around $v_i=v_j=0$ leads to:
+\[
+\frac{d}{dt}w_{ij}=c_0(w_{ij})+c_1^{post}(w_{ij})v_i+c_1^{pre}(w_ij)v_j+c_2^{pre}(w_{ij})v_j^2+c_2^{post}(w_{ij})v_i^2+c_2^{corr}v_i v_j+\mathcal{O}(v^3)
+\]
+The term with $c_2^{corr}$ is bilinear in pre- and postsynaptic activity showing that the change of the synaptic efficacy $w_{ij}$ is indeed subject to a combination of changes in both activities.\\
+Simplest choice of F is to fix $c_2^{corr}=c>0$ and set all other terms of the taylor expansion to zero resulting in the prototype of hebbian learning.\\
+\[
+\frac{d}{dt}w_{ij}=c_2^{corr}v_i v_j
+\]
+This learning rule includes only first-order terms and therefore models non-Hebbian plasticity. More complicated learning rules include higher-order terms of the taylor expansion. If $c_2^{corr}=c<0$, the learning rule is anti-hebbian.\\
+F is dependet on the efficacy $w_{ij}$, so that it will not grow without limit. A saturation of synaptic weights can be achieved if parameter $c_2^{corr}$ goes to zero as $w_{ij}$ approaches its maximum value:
+\[
+	c_2^{corr}(w_{ij})=\gamma_2(1-w_{ij})
+\]
+Originally Hebb did not consider a rule for decreasing the synaptic weights. In order to have a feasible model however, the synaptic efficacy should decrease in the absence of stimulation.\\
+\[
+	c_0(w_{ij})=-\gamma_0 w_{ij}
+\]
+The combination results in the simplest feasible learning rule:
+\[
+\frac{d}{dt}w_{ij}=\gamma_2(1-w_{ij})v_i v_j-\gamma_0 w_{ij}
+\]
+\subsubsection{Gating}
+\paragraph{Postsynaptic gating} A weight change occurs only if the postsynaptic neuron is active, $v_i>0$. $\Rightarrow$ the weight changes are "gated" by the postsynaptic neuron. Only the efficacies of highly active presynaptic neurons $v_j>v_{\phi}$ are strengthened.
+\[
+\frac{d}{dt}w_{ij}=\gamma v_i(v_j-v_{\phi}(w_{ij})), \gamma>0
+\]
+\paragraph{Presynaptic gating} role of pre- and postsynaptic firing rate are exchanged. Now, a change in synaptic weights can only occur if the presynaptic neuron is active, $v_j>0$ and the activity of the postsynaptic neuron determines the direction of the change.
+\[
+\frac{d}{dt}w_{ij}=\gamma v_j(v_i-v_{\phi}))
+\]
+
+\subsubsection{BCM rule}
+The "Bienenstock-Cooper-Munroe" rule is a generalization of the presynaptic gating rule, where $\Phi$ is a non-linear function and the reference rate $v_\phi$ is the running average of the postsynaptic activity $v_i$. 
+\[
+\frac{d}{dt}w_{ij}=\eta \Phi(v_i-v_{\phi}))v_j-\gamma w_{ij}
+\]
+%For low values of the postsynaptic activity (y<θM), ϕ is negative; for y>θM , ϕ is positive. The rule stabilizes by allowing the modification threshold, θM , to vary as a super-linear function of the previous activity of the cell. Unlike traditional methods of stabilizing Hebbian learning, this "sliding threshold" provides a mechanism for incoming patterns, as opposed to converging afferents, to compete.
+%In order to avoid that the postsynaptic firing rate blows up or decays to zero, it is therefore necessary to turn  $ \nu_{\theta}^{}$ into an adaptive variable.
 \subsection{PCA}
 \subsection{ICA}
 \subsubsection*{Gaussianity vs. non-gaussianity}
