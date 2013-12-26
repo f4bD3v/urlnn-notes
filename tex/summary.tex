@@ -1,8 +1,13 @@
 \documentclass[11pt]{article}
+\usepackage{amsmath}
 \usepackage{color}
 \usepackage{comment}
 
+\title{Unsupervised Learning in Neural Networks - Summary}
+\author{Fabian Brix, Renato Kempter}
+
 \begin{document}
+\maketitle
 
 \section{Neuroscience}
 
@@ -89,7 +94,30 @@ The "Bienenstock-Cooper-Munroe" rule is a generalization of the presynaptic gati
 \]
 %For low values of the postsynaptic activity (y<θM), ϕ is negative; for y>θM , ϕ is positive. The rule stabilizes by allowing the modification threshold, θM , to vary as a super-linear function of the previous activity of the cell. Unlike traditional methods of stabilizing Hebbian learning, this "sliding threshold" provides a mechanism for incoming patterns, as opposed to converging afferents, to compete.
 %In order to avoid that the postsynaptic firing rate blows up or decays to zero, it is therefore necessary to turn  $ \nu_{\theta}^{}$ into an adaptive variable.
-\subsection{PCA}
+\subsection{Learning in Rate Models (functional consequences of hebbian learning)}
+\paragraph{Goal:} understand how activity-dependent learning rules influence the formation of connections between neurons in the brain.\\
+Plasticity is controlled by the statistical properties of the presynaptic input for the postsynaptic neuron.
+\subsubsection{Evolution of synaptic weights} For the sake of simplicity we model the presynaptic input as a set of static patterns $\{x^\mu \in \mathcal{R}^N; 0\leq \mu \leq p\}$. At each time step one of the patterns is selected at random and the presynaptic rates are fixed to $v_i = x_i^\mu$. The synaptic weights are modified according to a Hebbian learning rule dependent on the correlation of pre- and postsynaptic activity: $\frac{d}{dt}w_{ij}=a_2^{corr}v_i^{post}v_j^{pre}$.\\
+In a general rate model the firing rate $v_i^{post}$ is given by a nonlinear function of the total input: $v^{post}=g(\sum_i w_i v_i^{pre})$. For simplification reasons we focus on a linear rate model: 
+\[
+v_i^{post}=\sum_k w_{ik} v_k^{pre}
+\]
+We can now combine the learning rule and the linear rate model to form:
+\[
+\frac{d}{dt}w_{ij}=a_2^{corr} \sum_k w_{ik} v_k^{pre} v_j^{pre}
+\]
+We are interested in the long-term behaviour of the synaptic weights and therefore consider the expectation value of the weight vector, i.e., the weight vector averaged over the sequence $(x^{\mu_1}, x^{\mu_2}, ..., x^{\mu_n})$ that have so far been presented to the network.
+\begin{align*}
+&\langle \frac{d}{dt}w_{ij} \rangle = a_2^{corr}\sum_k \langle w_{ik} \rangle \langle \underbrace{x_k^\mu x_j^\mu}_{C_{kj}} \rangle
+&C_{kj}=\langle x_kx_j \rangle = \frac{1}{p}\sum_{\mu=1}^p x_k^\mu x_j^\mu
+\end{align*}
+$C_{kj}$ are the correlation matrices for respective components i and j in the sum of the learning rule. Using PCA we can detect the direction of maximal variance in the set of patterns. $\Rightarrow$ Express weight vector $w$ in eigenvectors of C. \textsc{What do principal components mean in this respect?}
+\paragraph{PCA} fill in PCA equations
+\subsection{Oja's rule}
+Oja's rule contains a non-zero quadratic term for the postsynaptic neuron 
+\[
+\frac{d}{dt}w_{ij}=a_2^{corr}v_jv_i-\underbrace{a_2^{post}}_{a_2^{corr}w_{ij}}(v_i^{post})^2=a_2^{corr}(v_jv_i-w_{ij}(v_i^{post})^2)
+\]
 \subsection{ICA}
 \subsubsection*{Gaussianity vs. non-gaussianity}
 
