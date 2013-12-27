@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  27 DEC 2013 14:16
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  27 DEC 2013 20:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -100,30 +100,30 @@ File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
 Excluding comment 'comment') (./summary.aux)
 \openout1 = `summary.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
  [1
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 43.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 44.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 43.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 44.
  [2] [3]
-Overfull \hbox (45.04933pt too wide) detected at line 68
+Overfull \hbox (45.04933pt too wide) detected at line 69
 []\OML/cmm/m/it/10.95 w[] \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 c[]\OT1/cmr/
 m/n/10.95 (\OML/cmm/m/it/10.95 w[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 c[
 ]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 w[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/1
@@ -138,22 +138,22 @@ m/n/10.95 )\OML/cmm/m/it/10.95 v[] \OT1/cmr/m/n/10.95 + \OML/cmm/m/it/10.95 c[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 68--71
+Underfull \hbox (badness 10000) in paragraph at lines 69--72
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 78--80
+Underfull \hbox (badness 10000) in paragraph at lines 79--81
 
  []
 
 [4] [5] [6]
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
-(Font)              using `OT1/cmr/bx/n' instead on input line 142.
+(Font)              using `OT1/cmr/bx/n' instead on input line 143.
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 155--157
+Underfull \hbox (badness 10000) in paragraph at lines 156--158
 
  []
 
@@ -161,7 +161,7 @@ Missing character: There is no è in font cmr10!
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.166 \end{align*}
+l.167 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -172,7 +172,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.166 \end{align*}
+l.167 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -183,7 +183,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.166 \end{align*}
+l.167 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -194,7 +194,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.166 \end{align*}
+l.167 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -205,7 +205,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.166 \end{align*}
+l.167 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -216,7 +216,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.166 \end{align*}
+l.167 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -227,7 +227,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -238,7 +238,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -249,7 +249,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -260,7 +260,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -271,7 +271,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -282,7 +282,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -293,7 +293,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -304,7 +304,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -315,7 +315,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -326,7 +326,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -337,7 +337,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -348,7 +348,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -359,7 +359,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -370,7 +370,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -381,7 +381,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -392,7 +392,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -403,7 +403,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -414,7 +414,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.171 \end{align*}
+l.172 \end{align*}
                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -426,7 +426,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.175 J(w)=[\E
+l.176 J(w)=[\E
               (F(y))-\E(F(v))]^2
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -437,7 +437,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.175 J(w)=[\E(F(y))-\E
+l.176 J(w)=[\E(F(y))-\E
                        (F(v))]^2
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -448,8 +448,8 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.190 \E
-        (\mathbf{w}_1, \dots, \mathbf{w}_n) = \sum_k \sum_{\mu \in C_k} (\ma...
+l.191 \item Newton step $\mathbf{w}^{new}=\E
+                                             \left[\mathbf{x}(g(\mathbf{w}^T...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -460,7 +460,18 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <argument> \mathbb 
                    {E}
-l.202 ...a \frac{\partial\E}{\partial\mathbf{w}_j}
+l.207 \E
+        (\mathbf{w}_1, \dots, \mathbf{w}_n) = \sum_k \sum_{\mu \in C_k} (\ma...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.219 ...a \frac{\partial\E}{\partial\mathbf{w}_j}
                                                    = -\eta \frac{\partial}{\...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -468,7 +479,7 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[10]
+[10] [11]
 
 ! LaTeX Error: Illegal character in array arg.
 
@@ -476,7 +487,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.231 \end{align*}
+l.248 \end{align*}
                   
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -484,7 +495,7 @@ If that doesn't work, type  X <return>  to quit.
 ! Missing delimiter (. inserted).
 <to be read again> 
                    }
-l.231 \end{align*}
+l.248 \end{align*}
                   
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -500,7 +511,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.231 \end{align*}
+l.248 \end{align*}
                   
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -508,7 +519,7 @@ If that doesn't work, type  X <return>  to quit.
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \let 
-l.231 \end{align*}
+l.248 \end{align*}
                   
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -517,36 +528,45 @@ braces don't get unbalanced. Otherwise just proceed.
 Acceptable delimiters are characters whose \delcode is
 nonnegative, or you can use `\delimiter <delimiter code>'.
 
-[11] [12] [13] [14] [15] [16] [17]
-Overfull \hbox (15.4636pt too wide) in paragraph at lines 381--385
+[12] [13] [14]
+Overfull \hbox (11.41876pt too wide) in paragraph at lines 314--315
+\OT1/cmr/m/n/10.95 miza-tion $\OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm
+/m/it/10.95 s; a[]\OT1/cmr/m/n/10.95 ) \OML/cmm/m/it/10.95 > Q\OT1/cmr/m/n/10.9
+5 (\OML/cmm/m/it/10.95 s; a[]\OT1/cmr/m/n/10.95 )$ of the ex-pected re-ward $\O
+ML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 S; a\OT1/cmr/m/n/10.
+95 ) = [][] \OML/cmm/m/it/10.95 P[]R[]$\OT1/cmr/m/n/10.95 . 
+ []
+
+[15] [16] [17]
+Overfull \hbox (15.4636pt too wide) in paragraph at lines 423--427
 \OT1/cmr/m/n/10.95 The nor-mal-iza-tion fac-tor $\OML/cmm/m/it/10.95 Z$ \OT1/cm
 r/m/n/10.95 is called the par-ti-tion func-tion $\OML/cmm/m/it/10.95 Z \OT1/cmr
 /m/n/10.95 = [][] [](\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/10.95 E\OT1/cmr/m/n/1
 0.95 (\OML/cmm/m/it/10.95 x\OT1/cmr/m/n/10.95 ))$. 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 405--408
-
- []
-
 [18]
-Underfull \hbox (badness 10000) in paragraph at lines 417--419
+Underfull \hbox (badness 10000) in paragraph at lines 447--450
 
  []
 
-[19] (./summary.aux)
+[19]
+Underfull \hbox (badness 10000) in paragraph at lines 459--461
+
+ []
+
+[20] (./summary.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 1090 strings out of 495716
- 12741 string characters out of 3188883
+ 1091 strings out of 495716
+ 12751 string characters out of 3188883
  64561 words of memory out of 3000000
- 4266 multiletter control sequences out of 15000+200000
+ 4267 multiletter control sequences out of 15000+200000
  11745 words of font info for 42 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  27i,16n,20p,856b,194s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on summary.pdf (19 pages).
+Output written on summary.pdf (20 pages).
