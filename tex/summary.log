@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  26 DEC 2013 23:53
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  27 DEC 2013 02:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -100,30 +100,30 @@ File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
 Excluding comment 'comment') (./summary.aux)
 \openout1 = `summary.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
  [1
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 37.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 39.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 37.
- [2]
-Overfull \hbox (45.04933pt too wide) detected at line 62
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 39.
+ [2] [3]
+Overfull \hbox (45.04933pt too wide) detected at line 64
 []\OML/cmm/m/it/10.95 w[] \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 c[]\OT1/cmr/
 m/n/10.95 (\OML/cmm/m/it/10.95 w[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 c[
 ]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 w[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/1
@@ -137,44 +137,335 @@ m/n/10.95 )\OML/cmm/m/it/10.95 v[] \OT1/cmr/m/n/10.95 + \OML/cmm/m/it/10.95 c[]
 0.95 )
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 62--65
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--67
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 72--74
+Underfull \hbox (badness 10000) in paragraph at lines 74--76
 
  []
 
 [4] [5] [6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 151--153
+
+ []
+
 Missing character: There is no è in font cmr10!
- [8] [9] [10] [11] [12] [13]
-Overfull \hbox (15.4636pt too wide) in paragraph at lines 284--288
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.162 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.162 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.162 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.162 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.162 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.162 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.167 \end{align*}
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[8]
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.171 J(w)=[\E
+              (F(y))-\E(F(v))]^2
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \mathbb 
+                   {E}
+l.171 J(w)=[\E(F(y))-\E
+                       (F(v))]^2
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[9] [10] [11] [12] [13]
+Overfull \hbox (15.4636pt too wide) in paragraph at lines 298--302
 \OT1/cmr/m/n/10.95 The nor-mal-iza-tion fac-tor $\OML/cmm/m/it/10.95 Z$ \OT1/cm
 r/m/n/10.95 is called the par-ti-tion func-tion $\OML/cmm/m/it/10.95 Z \OT1/cmr
 /m/n/10.95 = [][] [](\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/10.95 E\OT1/cmr/m/n/1
 0.95 (\OML/cmm/m/it/10.95 x\OT1/cmr/m/n/10.95 ))$. 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 308--311
-
- []
-
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 320--322
+Underfull \hbox (badness 10000) in paragraph at lines 322--325
 
  []
 
-[15] (./summary.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 334--336
+
+ []
+
+[15] [16] (./summary.aux) ) 
 Here is how much of TeX's memory you used:
- 1083 strings out of 495716
- 12663 string characters out of 3188883
+ 1087 strings out of 495716
+ 12706 string characters out of 3188883
  64561 words of memory out of 3000000
- 4259 multiletter control sequences out of 15000+200000
- 11145 words of font info for 40 fonts, out of 3000000 for 9000
+ 4263 multiletter control sequences out of 15000+200000
+ 11745 words of font info for 42 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  27i,15n,20p,856b,189s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on summary.pdf (15 pages).
+Output written on summary.pdf (16 pages).

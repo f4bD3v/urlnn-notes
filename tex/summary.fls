@@ -32,6 +32,8 @@ INPUT summary.aux
 INPUT summary.aux
 OUTPUT summary.aux
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmcsc10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
