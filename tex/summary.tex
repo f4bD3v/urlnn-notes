@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage{amsmath}
+\usepackage{amsmath, amssymb}
 \usepackage{color}
 \usepackage{comment}
 
@@ -322,49 +322,45 @@ A model mimics the behaviour of the environment. \textit{For example, given a st
 
 \subsection{Markov Decision Problems (MDP)}
 Reinforcement learning algorithms model the world as a Markov Decision Problem (MDP) 
-\[
-MDP(S, A, P_{s\rightarrow S'}^a, \gamma, R:S\rightarrow\mathbb{R})
-\]
-$\sum_{s'}P_{s\rightarrow s'}=1$
-policy $\pi(s,a)$ tells us what action a to take in state s
+\begin{align*}
+\mathbf{MDP}&\left(S, A, P_{s\rightarrow S'}^a, \gamma, \mathcal{R}\right)\\
+&S,\quad \text{state space}\\
+&A,\quad \text{contains possible actions associated with states}\\
+&\sum_{s'}P_{s\rightarrow s'}^2=1,\quad\text{outgoing action prob. sum to 1}\\
+&\gamma, \quad\text{discount factor for future rewards}\\
+&\mathcal{R}:S\rightarrow\mathbb{R}, \quad \text{reward function maps states to reward values}\\
+&\text{policy/strategy profile}\quad \pi(s,a), \quad \text{describes which action a to take in state s}
+\end{align*}
+
 \subsection{Reward-based action learning: Q-values}
 In the case of a \texttt{1-step horizon} the agent starts of in an initial state $s$ from where he can get to several states $s_i'$ by choosing an associated action $a_i$. A reward $P_{s \rightarrow s'}^a$ is associated with every action.
 \paragraph{Goal:} The agent should find the optimal strategy $a^*$ resulting in the maximization $Q(s,a^*) > Q(s, a_j)$ of the expected reward $Q(S,a)=\sum_{s'} P_{s \rightarrow s'}^a R_{s \rightarrow s'}^a$.
 
 \paragraph{Update rule:}
-The Q values are however not known at the beginning, because the reward probabilities $P_{s \rightarrow s'}^a$ are not known. Therefore, the agent need to learn them via iterative updates: 
+The Q values are however not known at the beginning, because the reward probabilities $P_{s \rightarrow s'}^a$ are not known. Therefore, the agent needs to learn them via iterative updates: 
 \[
-\Delta Q(s,a) = \eta [r-Q(s,a)]
+\Delta Q(s,a) = \eta\left[R_{s \rightarrow s'}^a-Q(s,a)\right]=\eta\left[r-Q(s,a)\right]
 \]
-\textsc{TODO: Intuitive explanation of the update rule}
-If the mean update has converged, then $<\Delta Q(s,a)> = 0$
+These consist of the difference between received reward and expected reward multiplied by a learning rate $\eta$. Over multiple episodes the Q-values converge to the true value of the reward $r$, expressed by convergence of the mean update $<\Delta Q(s,a)> = 0$.
 
-\subsubsection{Strategies for exploration vs. exploitation}
-There are different strategies for exploitation while correct Q-values are not known:
-\begin{itemize}
-	\item \textbf{Greedy strategy}: take action which looks best
-	\item \textbf{$\varepsilon$-greedy strategy}: take action which looks best with probability $P = 1-\varepsilon$
-	\item \textbf{Softmax strategy}: take action $a'$ which looks best with probability 
-	\[
-	P(a') = \frac{\exp{(\beta Q(a'))}}{\sum_a \exp{(\beta Q(a))}}
-	\]
-	\item \textbf{Optimistic greedy}: start off with Q values that are too big
-\end{itemize}
-
-\subsection{Bellmann Equation and SARSA}
+\subsection{SARSA and Bellman equation}
 For \texttt{Multi-step horizon} reward-based action learning we reformulate the update rule to take into account the Q-values from the next step multiplied by a discount factor $\gamma$:
-\[
-	\Delta Q(s,a) = \eta \left[r-(Q(s,a) - \gamma Q(s', a'))\right]
-\]
+\begin{align*}
+	\Delta Q(s,a) &= \eta \left[r-(Q(s,a) - \gamma Q(s', a'))\right]\\
+&=\eta \underbrace{\left[r+\gamma Q(s', a')-Q(s,a)\right}_{\delta_t}]= \eta \delta_t
+\end{align*}
+This update rule is called \textbf{SARSA} for \texttt{State Action Reward State Action} because it uses the state and action of time t along with the reward, state, and action of time t + 1 to form the so-called \textbf{temporal difference (TD) error} $\delta_t$.
+This update rule is called \texttt{associative} because the values that it learns are associated with particular states in the environment $s \in S$. We can write the same update rule without any s terms. This update rule would learn the value of actions without associating them with any environment state, thus it is \texttt{nonassociative}. \textit{For instance, if a learning agent were playing a slot machine with two handles, it would be learning only action values, i.e. the value of pulling lever one versus pulling lever two.} The associative case of learning state-action values is commonly thought of as the full reinforcement learning problem, although the related state value and action value cases can be learned by the same TD method.
+
 \paragraph{Bellman equation}
-We can use the Bellman equation to express the expected reward $Q(s,a)$over multiple horizons recursively: 
+The Bellman equation expresses the expected reward $Q(s,a)$ recursively over an infinite/multi-step horizon: 
 \[
-	Q(s,a) = \sum_{s'}P_{s \rightarrow s'}^a [R_{s \rightarrow s'} + \gamma \sum_{a'} \pi(s',a')Q(s',a')]
+	Q(s,a) = \sum_{s'}P_{s \rightarrow s'}^a [R^a_{s \rightarrow s'} + \gamma \sum_{a'} \pi(s',a')Q(s',a')]
 \]
-The $Q(s',a')$ are weighted differently according to the chosen policy $\pi$.
+The $Q(s',a')$ are weighted differently according to the chosen policy $\pi(s,a)$ derived from $Q(s,a)$.
 
 \paragraph{SARSA algorithm}
-The Bellman equation can be used for the SARSA algorithm:
+The Bellman equation can be used for the SARSA algorithm implementing the SARSA update rule:
 \begin{enumerate}
 	\item Being in state s, chose action a according to \textbf{policy}
 	\item Observe reward r, next state s'
@@ -373,73 +369,111 @@ The Bellman equation can be used for the SARSA algorithm:
 	\item $s' \rightarrow s$, $a' \rightarrow a$
 	\item Goto 1)
 \end{enumerate}
-\textsc{TODO: How to find policy?}
+
+\subsection{Strategies for exploration vs. exploitation}
+There are different strategies for exploitation/\texttt{ways to find optimal policy} while correct Q-values are not known:
+\subsubsection{Choosing a policy}
+The action choices for all states $s \in S$ are specified by a policy $\pi$. A policy consists of a rule for choosing the next state based on the value or predictions for possible next states (and in our case actions). More specifically, a policy maps state values to actions. Policy choice is very important due to the need to balance exploration and exploitation. 
+%The RL agent is trying to accomplish two related goals at the same time: it is trying to learn the values of states or actions and it is trying to control the environment. Thus, initially the agent must explore the state space to learn approximate value predictions. 
+This often means taking suboptimal actions in order to learn more about the value of an action or state. 
+% Furthermore, constant exploratory action is necessary in nonstationary tasks in which the reward values actually change over time.
+\begin{itemize}
+	\item \textbf{Greedy policy}: Consider an agent who takes the highest-valued action $a^*,\quad Q(s,a^*)>Q(s,a)$ at every step. This policy is called a greedy policy, because the agent is only exploiting its current knowledge of state or action values to maximize the expected reward and is not exploring to improve its estimates of other states. \textit{A greedy policy is likely undesirable for learning because there may be a state which is actually good but whose value cannot be discovered because the agent currently has a low value estimate for it, precluding/preventing its selection by a greedy policy.}
+	\item \textbf{$\varepsilon$-greedy policy}: take action which looks best with . A common way of balancing the need to explore states with the need to exploit current knowledge in maximizing rewards is to follow an $\varepsilon$-greedy policy which simply follows a greedy policy with probability $P = 1-\varepsilon$ and takes a random action with probability $\varepsilon$. \textit{This method is quite effective for a large variety of tasks.} 
+	\item \textbf{Softmax strategy}: take action $a'$ which looks best with probability 
+	Another common policy is softmax. You may recognize softmax as the stochastic activation function for Boltzmann machines, often called the Gibbs or Boltzmann distribution. With softmax, the probability of choosing action $a$ at time t is 
+	\[
+	P(a') = \frac{\exp{(\beta Q(a'))}}{\sum_a \exp{(\beta Q(a))}}
+	\]
+	where the denominator sums over all the exponentials of all possible action values and $\tau=\frac{1}{\beta}$ is the temperature coefficient. A high temperature causes all actions to be equiprobable, while a low temperature skews the probability toward a greedy policy. \textit{The temperature coefficient can also be annealed over the course of training, resulting in greater exploration at the start of training and greater exploitation near the end of training.} 
+	\item \textbf{Optimistic greedy}: start off with Q values that are too big
+\end{itemize}
 
 \paragraph{Action Values Q versus State Values V}
 \textsc{expected payoffs}
-Almost all reinforcement learning algorithms are based on estimating value functions. These are functions of states (or of state-action pairs) that estimate how good it is for the agent to be in a given state (or
-how good it is to perform a given action in a given state). The notion of ``how good" here is defined in terms of future rewards that can be expected, or, to be precise, in terms of expected return. Of course the rewards the agent can expect to receive in the future depends on what actions it will take. Accordingly, value functions are defined with respect to particular policies.\\
+Almost all reinforcement learning algorithms are based on estimating value functions. These are functions of states V (or of state-action pairs Q) that estimate how good it is for the agent to be in a given state $V_s$(or
+how good it is to perform a given action in a given state $Q_a$). The notion of ``how good" here is defined in terms of future rewards that can be expected, or, to be precise, in terms of expected return. Of course the rewards the agent can expect to receive in the future depend on what actions it will take. Accordingly, value functions are defined with respect to particular policies.\\
 
 Recall that a policy $\pi$ is a mapping from states $s \in S$ and actions $a \in A$ to the probability $\pi(s,a)$ of taking action $a$ when in state s. Informally, the value of a state s under a
-policy $\pi$, denoted by $V^\pi(s)$ is the expected return when starting in s and following $\pi$ thereafter. For MDPs we can define .. formally as 
-% source Sutton and Barto: 3.7 Value Functions
-We can rewrite the Bellman equation and express it as State values V.
-\[
-	V^{\pi}(s) = \sum_a \pi(s,a) \sum_{s'} P^a_{s \overrightarrow s'} [R^a_{s \overrightarrow s'} + \gamma \sum_{a'}\pi(s',a')Q(s',a')]
-\]
-
-which we can write in form of the value function as:
-
-\[
-	V^{\pi}(s) = \sum_a \pi(s,a) \sum_{s'} P_{s \rightarrow s'}^a[R_{s \rightarrow s'}^a + \gamma V^{\pi}(s')]
-\]
-
-The difference between $Q$ and $V$ is the following: The value function is the expected return starting from state $s_t$ and following policy $\pi$. The state-action value function $Q(s,a)$ is the expected return starting from state $s$, taking action $a$ and thereafter following policy $\pi$.
+policy $\pi$, denoted by $V^\pi(s)$ is the expected return when starting in s and \textsc{following $\pi$ thereafter}. % source Sutton and Barto: 3.7 Value Functions
+The Bellman equation for state values V becomes:
+\begin{align*}
+	V^{\pi}(s)&=\sum_a \pi(s,a) \overbrace{\sum_{s'} P^a_{s \rightarrow s'} [R^a_{s \rightarrow s'} + \gamma \underbrace{\sum_{a'}\pi(s',a')Q(s',a')}_{V^\pi(s')}]}^{Q(s,a)}\\
+	&=\sum_a \pi(s,a) \sum_{s'} P_{s \rightarrow s'}^a[R_{s \rightarrow s'}^a + \gamma V^{\pi}(s')],\quad\text{in form of itself}
+\end{align*}
+The difference between $Q$ and $V$ is the following: The value function is the expected return starting from state $s_t$ and following the policy $\pi$. The state-action value function $Q(s,a)$ is the expected return starting from state $s_t$, taking action $a$ and \texttt{only thereafter} following policy $\pi$.
+\textsc{We however use the state-action values $Q$ instead of the mere state values $V$}
 
 \subsection{On-policy vs off-policy learning}
-On-policy means SARSA; off-policy means Q-learning. The difference lies in the method used to compute $Q(s,a)$. While for SARSA, we use the policy as a coefficient for the discounted term $\gamma \sum_{a'} \pi(s',a')Q(s',a')$, the Q-learning algo simply uses the greedy approach $\gamma max_{a'}Q(s',a')$. Off-policy Q-learning uses a greedy update rule and the policy derived from Q for action selection (\eta -- greedy).
+\textsc{TODO: part doesn't fully match slides?}\\
+On-policy means SARSA; off-policy means Q-learning. The difference lies in the method used to compute the update for $Q(s,a)$. While for SARSA, we use the policy $\pi$ to select the action $a'$ for the discounted term ($\gamma \sum_{a'} \pi(s',a')Q(s',a')$), the Q-learning algorithm simply uses the greedy approach to select $a'$. Off-policy Q-learning by default uses a greedy update rule and the policy derived from $Q$ is only employed for selection of the first action a from the current state:
 \[
-\Delta Q(s,a)=\alpha\left[r(a)+\gamma Q(s',a')-Q(s,a)]
+\Delta Q(s,a)=\alpha\left[r(a)+\gamma\underset{a'}{\text{max}} Q(s',a')-Q(s,a)\right]
 \]
-\textsc{Problem}: Learning is slow over multiple trials
+The \texttt{Problem} with these algorithms is that learning is slow, that is to say the propagation of Q-values is slow.
 
 \subsection{Eligibility traces}
-At the moment of the reward update, update also previous action values along trajectories. The problem is that learning is very slow and the information diffusion across several states takes time.
-
-Every time an action $a$ is taken, one should do the following:
+An eligibility trace is a temporary record of the \texttt{occurrence of an event}, such as the visiting of a state or the \texttt{taking of an action} (relevant in our case). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes by weighting the learning rule accordingly.\\ 
+%The more theoretical view is that they are a bridge from Temporal differences (TD) to Monte Carlo methods.
+At the moment of the reward update, we want to also update previous action values along trajectories, because otherwise the information diffusion across several states takes too much time.
+Every time an action $a$ is chosen according to a policy, the eligibility traces are evaluated thus: 
 \begin{itemize}
-	\item If a = action taken in state j: $e(j,a)(t) = \gamma\lambda\left( e(j,a)(t-\Delta t) + 1\right)$
-	\item else: $e_(s,a)(t) = \gamma \lambda e_(s,a)(t-\Delta t)$ 
+	\item If a = action taken in state j: $e(j,a)(t) = \gamma\lambda e(j,a)(t-\Delta t) + 1$
+	\item else: $e(s,a)(t) = \gamma \lambda e_(s,a)(t-\Delta t)$ 
 \end{itemize}
-Here $\gamma$ is the memory reduction parameter.\\
-Then, for all states s and actions a use the update rule:
+The $\gamma$ here is the memory reduction parameter.\\
+Then, for all states s and actions a use the respective eligibility trace as an additional coefficient for the SARSA update rule with TD error $\delta_t=r_{t}+\gamma Q(s',a')-Q(s,a)$.
 \[
 	\Delta Q(s,a) = \eta \delta_t e(j,a)
 \]
-where
-\[
-	\delta_t = r_{t}+\gamma Q(s',a')-Q(s,a)
-\]
-An eligibility trace is a temporary record of the occurrence of an event, such as the visiting of a state or the taking of an action (backward view). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes. The more theoretical view is that they are a bridge from Temporal differences (TD) to Monte Carlo methods.
 
 \subsection{Continuous states}
+Q-values for continuous states approximation by a weighted sum of basis functions
 % needs some more explanation, I didn't fully get it.
 \[
 	Q(s,a) = \sum_j w_{aj}*r_j(s) = \sum_j w_{aj}*\phi(s-s_j)
 \]
+$s_j$ center of basis function, $\Phi$ shape of basis functions - determines how much of the weights are used.\\
+If the time interval between subsequent weight updates approaches zero, the difference between two consecutive states $s' - s = v(a) * \Delta t$, where $v(a)$ is the velocity resulting from the choice of the action a. $s'-s$ approximates zero, therefore $s' \approx s$. Similarly, the finer the time resolution becomes, the likelier it is that $a \approx a'$. Thus, for small time steps, an online gradient descent on the error term $E_t$ becomes closer to a $\delta_t$ modulated Hebbian rule. 
+\textsc{TODO: Exercise} $\frac{dQ(s',a')}{dw_{aj}}$
 
-If the time interval between subsequent weight updates approaches zero, the difference between two consecutive states $s' - s = v(a) * \Delta t$, where $v(a)$ is the velocity resulting from the choice of the action a. $s'-s$ approximates zero, therefore $s' \approx s$. Similarly, the finer the time resolution becomes, the likelier is that $a \approx a'$. Thus, for small time steps, an online gradient descent on the erro term $E_t$ becomes closer to a $\delta_t$ modulated Hebbian rule. 
+\subsection{Temporal Difference TD($\lambda$) algorithms}
+% sources: http://www.scholarpedia.org/article/Temporal_difference_learning and http://www.stanford.edu/group/pdplab/pdphandbook/handbookch10.html#x26-1320009.2
+TD algorithms are often used in reinforcement learning to predict a measure of the total amount $r_{tot.}$ of reward expected over the future, but they can be used to predict other quantities such as the expected reward $Q$ as well. Eligibility traces are usually implemented in this context by an exponentially-decaying memory trace, with decay parameter $\lambda$. This generates a family of TD algorithms $\mathbf{TD}(\lambda)$, $0\leq\lambda\leq 1$  with $\mathbf{TD}(0)$ corresponding to updating only the immediately preceding prediction (as described above - scholarpedia), and $\mathbf{TD}(1)$ corresponding to equally updating all the preceding predictions (\texttt{which is actually Q-learning}). %This also applies to non lookup-table versions of TD learning, where traces of the components of the input vectors are maintained. 
+\begin{align*}
+e(j,a)(t)&=\gamma\lambda e(j,a)(t-\Delta t)+\left\{\begin{array}{ll} 1*r_j & \text{if}\quad a=a'\\ 0 & \text{else}\end{array}\right\\
+&=\gamma\lambda e(j,a)(t-\Delta t)+r_j\delta_{a,a'}
+\end{align*}
+\textit{Eligibility traces do not have to be exponentially-decaying traces, but these are usually used since they are relatively easy to implement and to understand theoretically.}
 
-\subsection{Temporal Difference TD($\lambda$)}
-TD incorporates eligibility and continuous state space. We do a function approximation using weights and instead of updating $Q(s,a)$. In general, we do not work with $Q(s,a)$ but rather with the $V(s)$ values.
+%While there are a variety of techniques for unsupervised learning in prediction problems, we will focus specifically on the method of Temporal-Difference (TD) learning (Sutton, 1988). In supervised learning generally, learning occurs by minimizing an error measure with respect to some set of values that parameterize the function making the prediction. In the connectionist applications that we are interested in here, the predicting function is realized in a neural network, the error measure is most often the difference between the output of the predicting function and some prespecificed target value, and the values that parameterize the function are connection weights between units in the network. For now, however, we will dissociate our discussion of the prediction function from the details of its connectionist implementation for the sake of simplicity and because the principles which we will explore can be implemented by methods other than neural networks. In the next section, we will turn our attention to understanding how neural networks can implement these prediction techniques and how the marriage of the two techniques (TD and connectionism) can provide added power
+% read http://www.stanford.edu/group/pdplab/pdphandbook/handbookch10.html
 
+\subsubsection{Neuronal interpretation}
+TD incorporates eligibility and continuous state space. We do a function approximation using weights and instead of updating $Q(s,a)$. 
+TD method with a function approximator like a neural network, we update $V_t^\pi$ by finding the output gradient with respect to the weights. This step is not captured in the previous equation $\delta_t = r_{t}+\gamma Q(s',a')-Q(s,a)$. We will discuss these implementation specific details later.
+%In general, we do not work with $Q(s,a)$ but rather with the $V(s)$ values.
 \[
 	Q_w(s,a) = \sum_{i=1}^n w_i^a * r_i(s)
 \]
 \[
 	\Delta w_{aj} = \eta \delta_t e_{aj}
 \]
+\paragraph{Eligibility and continous TD}
+\begin{enumerate}
+\item choose action a according to policy (greedy)
+\item observe reward $r$ in state $s'$, from there choose next action a'
+\item calculate TD error $\delta_t$ in SARSA
+\item update eligibility trace of action a in current state $e(j,a)$
+\item perform weight update $\Delta w_{ja}=\eta \delta_t e(j,a)(t)$
+\item update Q-value approximation for state j $Q_w(j,a)=\sum_{s' \in S'}w_{s'}^a r_{s'}(j)$ (rewards we can get through actions a leading to states s' in s) for next episode.
+\item $a \leftarrow a'$, $s \leftarrow s'$, return to 2)
+\end{enumerate}
 
+eligibity traces implement (short-term) memory
+The weights grow/connection is reinforced if action a at state s is successful in obtaining a reward
+
+%As mentioned previously, TD methods have no inherent connection to neural network architectures. TD learning solves the problem of temporal credit assignment, i.e. the problem of assigning blame for error over the sequence of predictions made by the learning agent. The simplest implementation of TD learning employs a lookup table where the value of each state or state-action pair is simply stored in a table, and those values are adjusted with training. This method is effective for tasks which have an enumerable state space. However, in many tasks, and certainly in tasks with a continuous state space, we cannot hope to enumerate all possible states, or if we can, there are too many for a practical implementation. Back propagation, as we already know, solves the problem of structural credit assignment, i.e. the problem of how to adjust the weights in the network to minimize the error. One of the largest benefits of neural networks is, of course, their ability to generalize learning across similar states. Thus, combining both TD and back propagation results in an agent that can flexibly learn to maximize reward over mulitple time steps and also learn structural similarities in input patterns that allow it to generalize its predictions over novel states. This is a powerful coupling. In this section we sketch the mathematical machinery involved in coupling TD with back propagation. Then we explore a notable application of the combined TDBP algorithm to the playing of backgammon as a case study
 TODO: DOES SOMEBODY HAVE THE BLACKBOARD: REPRESENTATION OF STATE-VALUE Lecture 7 (Backgammon)
 
 We can write the eligibility trace as $e_{aj}(t) = \gamma \lambda e_{aj}(t-\Delta t) + r_j\delta_{a,a'}$
