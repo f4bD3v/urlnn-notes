@@ -12,6 +12,7 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
 
 \section{Neuroscience}
 
@@ -455,9 +456,12 @@ e(j,a)(t)&=\gamma\lambda e(j,a)(t-\Delta t)+\left\{\begin{array}{ll} 1*r_j & \te
 \paragraph{Hebbian Learning of Actions:}
 example: current states as input and cues as inputs for action neurons. How to model reward on top of action neurons after they have become selective to a certain combination of states and inputs?. We only want to learn the actions that are rewarded! Hebbian Learning fails.
 Most models of Hebbian Learning/STDP do not take into account neuromodulators, so cannot describe success/shock
+\textsc{TODO} paragraph on Spike Timing Dependent Plasticity (STDP)
 
 \paragraph{Neuromodulation}
 Neuromodulation is the physiological process by which a given neuron uses one or more neurotransmitters to regulate diverse populations of neurons. This is in contrast to classical synaptic transmission, in which one presynaptic neuron directly influences a single postsynaptic partner. Neuromodulators secreted by a small group of neurons diffuse through large areas of the nervous system, affecting multiple neurons. Examples of neuromodulators include dopamine, serotonin, acetylcholine, histamine and others.\\
+In neuroscience, an excitatory postsynaptic potential (EPSP) is a temporary depolarization of postsynaptic membrane potential caused by the flow of positively charged ions into the postsynaptic cell as a result of opening of ligand-gated ion channels. They are the opposite of inhibitory postsynaptic potentials (IPSPs), which usually result from the flow of negative ions into the cell or positive ions out of the cell. A postsynaptic potential is defined as excitatory if it makes the neuron more likely to fire an action potential. EPSPs can also result from a decrease in outgoing positive charges, while IPSPs are sometimes caused by an increase in positive charge outflow. The flow of ions that causes an EPSP is an excitatory postsynaptic current (EPSC).
+EPSPs, like IPSPs, are graded (i.e. they have an additive effect). When multiple EPSPs occur on a single patch of postsynaptic membrane, their combined effect is the sum of the individual EPSPs. Larger EPSPs result in greater membrane depolarization and thus increase the likelihood that the postsynaptic cell reaches the threshold for firing an action potential.\\
 
 extend theory
 should be good for memory formation as well as \texttt{action learning}. Therefore global factors have to be included for feedback (neuromodulator)
