@@ -450,6 +450,60 @@ e(j,a)(t)&=\gamma\lambda e(j,a)(t-\Delta t)+\left\{\begin{array}{ll} 1*r_j & \te
 % read http://www.stanford.edu/group/pdplab/pdphandbook/handbookch10.html
 
 \subsubsection{Neuronal interpretation}
+\paragraph{Recap:} Hebbian learning is a theoretical concept exploiting statistical correlations in passive changes of the activations of presynaptic and postsynaptic neurons. It is useful for development, i.e. the wiring of neurons for receptive fields in the brain). Reinforcement learning in contrast relies on conditional changes (reward is received for policy choosing certain actions) to maximize a reward and is therefore useful for learning new behaviours.
+
+\paragraph{Hebbian Learning of Actions:}
+example: current states as input and cues as inputs for action neurons. How to model reward on top of action neurons after they have become selective to a certain combination of states and inputs?. We only want to learn the actions that are rewarded! Hebbian Learning fails.
+Most models of Hebbian Learning/STDP do not take into account neuromodulators, so cannot describe success/shock
+
+\paragraph{Neuromodulation}
+Neuromodulation is the physiological process by which a given neuron uses one or more neurotransmitters to regulate diverse populations of neurons. This is in contrast to classical synaptic transmission, in which one presynaptic neuron directly influences a single postsynaptic partner. Neuromodulators secreted by a small group of neurons diffuse through large areas of the nervous system, affecting multiple neurons. Examples of neuromodulators include dopamine, serotonin, acetylcholine, histamine and others.\\
+
+extend theory
+should be good for memory formation as well as \texttt{action learning}. Therefore global factors have to be included for feedback (neuromodulator)
+\[
+\Delta w_{ij} \propto F(\underbrace{v_i,v_j}_{local},\underbrace{\text{SUCCESS}}_{\text{\textcolor{red}{global}}})
+\]
+
+\paragraph{Timing issues in Reinforcement learning}
+success signal is delayed (spike time scale:1-10ms, reward delay: 100-5000ms) $\rightarrow$ need memory trace (eligibility trace)
+implement eligibility traces as memory at synapse, same definition as in $\mathbf{TD}(\lambda)$
+
+what is winner takes all interaction here?
+correlation of reward in current state and reward obtained from action
+\begin{align*}
+e(j,a)(t)&=\gamma\lambda e(j,a)(t-\Delta t)+\left\{\begin{array}{ll} r_jr_a & \text{if}\quad a=a'\\ 0 & \text{else}\end{array}\right\\
+&=\gamma\lambda e(j,a)(t-\Delta t)+r_j\delta_{a,a'}
+\end{align*}
+if a is successful the elibility trace contains its reward 
+\[
+e(j,a)(t)=\gamma\lambda e(j,a)(t-\Delta t)+r_j(s_t)r_a(t)
+\]
+
+\paragraph{Plasticity Model for Reinforcement learning}
+spike-based model
+\[
+\Delta w_{ij} \propto \text{success}\cdot(v_i v_j + \dots)
+\]
+in contrast to old spike-timing dependent plasticity
+\[
+\Delta w_{ij} \propto v_i v_j + \dots
+\]
+synaptic update of current action a
+\begin{align*}
+&\Delta w_{aj}=\eta \delta_t r_j\\
+&\Delta w_{aj}=\eta \delta_t r_jr_a\quad \text{if a taken}
+\end{align*}
+success= reward - exp. reward $\delta_t$ (dopamine neurons), success is maximized when $delta_t$ is minimized $\rightarrow$ correct prediction
+
+\paragraph{Molecular mechanism}
+changes in synaptic connections
+synaptic terminal (left), dendrite (right): calcium ions poor into the nerve terminal and these release neurotransmitters from small vesicles. Some of these neurotransmitters activate receptors on the target neuron which in turn opens channels letting sodium ions in
+% http://www.hhmi.org/biointeractive/molecular-mechanism-synaptic-function
+% http://www.hhmi.org/research/molecular-mechanisms-regulation-synaptic-transmission-and-plasticity-brain
+\textsc{TODO}
+
+%Another way in which the agent can modify its environment is to learn state-action values instead of just state values. We define a function Q(⋅) from state-action pairs to values such that the value of Q(st,at) is the expected return for taking action at while in state st. In neural networks, the Q function is realized by having a subset of the input units represent the current state and another subset represent the possible actions. For the sake of illustration, suppose our learning agent is a robot that is moving around a grid world to find pieces of garbage. We may have a portion of the input vector to represent sensory information that is available to the robot at its current location in the grid - this portion corresponds to the state in the Q function. Another portion would be a vector for each possible action that the robot can take. Suppose that our robot can go forward, back, left, right, and pickup a piece of trash directly in front of it. Therefore, we would have a five place action vector, one place corresponding to each of the possible actions. When we must choose an action, we simply fix the current state on the input vector and turn on each of the five action units in turn, computing the value for each. The next action is chosen from these state-action values and the environment state is modified accordingly.
 TD incorporates eligibility and continuous state space. We do a function approximation using weights and instead of updating $Q(s,a)$. 
 TD method with a function approximator like a neural network, we update $V_t^\pi$ by finding the output gradient with respect to the weights. This step is not captured in the previous equation $\delta_t = r_{t}+\gamma Q(s',a')-Q(s,a)$. We will discuss these implementation specific details later.
 %In general, we do not work with $Q(s,a)$ but rather with the $V(s)$ values.
@@ -469,14 +523,153 @@ TD method with a function approximator like a neural network, we update $V_t^\pi
 \item update Q-value approximation for state j $Q_w(j,a)=\sum_{s' \in S'}w_{s'}^a r_{s'}(j)$ (rewards we can get through actions a leading to states s' in s) for next episode.
 \item $a \leftarrow a'$, $s \leftarrow s'$, return to 2)
 \end{enumerate}
-
 eligibity traces implement (short-term) memory
 The weights grow/connection is reinforced if action a at state s is successful in obtaining a reward
 
+\paragraph{Algorithmic application: backgammon}
+\textsc{todo}
+DOES SOMEBODY HAVE THE BLACKBOARD: REPRESENTATION OF STATE-VALUE Lecture 7 (Backgammon)?
 %As mentioned previously, TD methods have no inherent connection to neural network architectures. TD learning solves the problem of temporal credit assignment, i.e. the problem of assigning blame for error over the sequence of predictions made by the learning agent. The simplest implementation of TD learning employs a lookup table where the value of each state or state-action pair is simply stored in a table, and those values are adjusted with training. This method is effective for tasks which have an enumerable state space. However, in many tasks, and certainly in tasks with a continuous state space, we cannot hope to enumerate all possible states, or if we can, there are too many for a practical implementation. Back propagation, as we already know, solves the problem of structural credit assignment, i.e. the problem of how to adjust the weights in the network to minimize the error. One of the largest benefits of neural networks is, of course, their ability to generalize learning across similar states. Thus, combining both TD and back propagation results in an agent that can flexibly learn to maximize reward over mulitple time steps and also learn structural similarities in input patterns that allow it to generalize its predictions over novel states. This is a powerful coupling. In this section we sketch the mathematical machinery involved in coupling TD with back propagation. Then we explore a notable application of the combined TDBP algorithm to the playing of backgammon as a case study
-TODO: DOES SOMEBODY HAVE THE BLACKBOARD: REPRESENTATION OF STATE-VALUE Lecture 7 (Backgammon)
 
-We can write the eligibility trace as $e_{aj}(t) = \gamma \lambda e_{aj}(t-\Delta t) + r_j\delta_{a,a'}$
+\subsubsection{Learning algorithm for state values V}
+This error will be multiplied by a learning rate $\alpha$ and then used to update our weights. The general update rule is
+\[
+V_t = V_t + \alpha\left[r_{t+1}+\gamma V_{t+1}-V_t\right]
+\]
+
+\subsection{Biological Principles of Learning}
+\subsubsection{Spatial Learning}
+Map brain: place neuronal cells - sensitive to spatial location, Environment box: place fields which are then mapped to place cells
+
+Hippocampal place cells, depends on visual cues, works also in the dark
+\paragraph{navigation to a hidden goal (Morris Water maze)}
+different starting positions, task learning depends on the hippocampus
+code for position of the animal, learn action (North, East, South, West, etc.) towards goal
+after many trials the network should have learnt the right actions to take from positions in the water maze (the weights for the right actions should become specific to the appropriate positions.)
+
+\subsubsection{Unsupervised learning of place cells}
+from reinforcement learning of the appropriate actions for states to the unsupervised learning of place cells in the hippocampus?
+\paragraph{Goal:} in order to have the code for the position of the animal in the maze we have to learn the place cells. Derive a model that stores views of visited places. 
+Robot in an environment: visual input at each time step:
+\paragraph{Local view:} activation of set of 9000 gabor wavelets $L(\mathbf{p},\Phi)=\{F_k\}$
+store views of visited places
+single view cell (VC) stores a local view
+all local views are stored in an incrementally growing view cells population.
+
+\paragraph{Extracting direction} views are aligned by current gaze directions $\Phi_i$ and their differences $\Delta\Phi=\Phi_i-\Phi_k$
+
+\paragraph{Extracting position} small difference between local views - spatially close positions
+$F_i$ from set of filter responses
+\begin{align*}
+&\text{Difference:} \quad \Delta L = \abs{F_i-F(t)}\\
+&\text{Similarity Measure:} \quad r_i^{VC}=\exp\left(-\frac{(\Delta L)^2}{2\sigma^2_{VC}}\right)
+\end{align*}
+
+\paragraph{Learning place cells} Population of place cells created incrementally during exploration. Activity of a place:
+place cells are connected to grid cells of view cells?
+$\mathbf{w}_{ij}^pc$ - weight vector for place cell i
+\[
+r^{pc}=\sum w_{ij}^{pc}r_j^{pre}
+\]
+competitive hebbian learning:
+\[
+\delta w_{ij}^{pc}=\eta \abs{r_i^{pc}-\phi}(r_j^{pre}-w_{ij}^{pc})
+\]
+\paragraph{Place cell based vs. landmark-based navigation}
+Place cells: all place cells connected to all possible action cells(nucleus accumbens) (important weights $w_{ij}$ are learnt). Learnt actions result in correct movement towards goal.\\
+Landmark-based navigation: Visual filters connected to action cells (dorsal striatum), so that agent turns towards landmark
+
+%The nucleus accumbens (NAcc), also known as the accumbens nucleus or as the nucleus accumbens septi (Latin for nucleus adjacent to the septum) is a region of the human brain in the basal forebrain rostral to the preoptic area.[1] The nucleus accumbens and the olfactory tubercle collectively form the ventral striatum, which is part of the basal ganglia.\\ Research has indicated the nucleus accumbens has an important role in pleasure including laughter, reward, and reinforcement learning, as well as fear, aggression, impulsivity, addiction, and the placebo effect. Each brain hemisphere has its own nucleus accumbens. It is located where the head of the caudate and the anterior portion of the putamen meet just lateral to the septum pellucidum. The nucleus accumbens can be divided into two structures—the nucleus accumbens core and the nucleus accumbens shell. These structures have different morphology and function.
+
+%The striatum, also known as the neostriatum or striate nucleus, is a subcortical (i.e., inside, rather than on the outside) part of the forebrain. It is the major input station of the basal ganglia system. The striatum, in turn, gets input from the cerebral cortex. In primates (including humans), the striatum is divided by a white matter tract called the internal capsule into two sectors called the caudate nucleus and putamen. The term corpus striatum occasionally refers to the striatum combined with the globus pallidus, a structure closely related to the putamen, and the lenticular nucleus refers to the putamen together with the globus pallidus.\\ Functionally, the striatum helps coordinate motivation with body movement. It facilitates and balances motivation with both higher-level and lower-level functions, such as inhibiting one's behavior in a complex social interaction and fine-motor functions of inhibiting small voluntary movement.
+
+\begin{itemize}
+\item Unsupervised learning leads to interaction between vision and path integration
+\item Model of landmark-based navigation
+\item Model of map-based navigation
+\item Learning of actions: \texttt{reinforcement learning}
+\item Learning of views and places: \texttt{unsupervised learning}
+\end{itemize}
+
+\paragraph{Biological mechanisms: grid cells}
+firing grids extend over the whole space. Subpopulation with different grid sizes exist. Grid cells project to the CA1 area. Grid-cell firing fields rotate following the rotation of the cue.
+Biological locus of the path integration (elecrode in dorsomedial entorhinal cortex)
+
+\subsection{Policy Gradient Methods}
+Policy gradient methods are a type of reinforcement learning techniques that rely upon optimizing \texttt{parametrized policies} $\pi_\theta$ with respect to the \texttt{expected return} (long-term cumulative reward) by gradient descent. % source: scholarpedia
+
+\subsubsection{Limitations of TD methods (Q-learning \& SARSA)}
+Reinforcement learning is probably the most general framework in which reward-related learning problems of animals, humans or machine can be phrased. However, most of the methods proposed in the reinforcement learning community are not yet applicable to many problems such as robotics, motor control, etc. due to the following reasons.
+The motivation for policy gradient methods is that they do not suffer from many of the problems that have been marring traditional reinforcement learning approaches:
+\begin{itemize}
+\item \textbf{Lack of guarantees of a value function?:} In continuous observation domains (environment) function approximations which are hard to select/tune are necessary for these methods
+\item \textbf{Intractability:} In only partially observable, \texttt{non-markovian} settings, TD algorithms are shown to be fundamentally flawed. Because of the uncertain state information the learning systems need to be modeled as partially observable Markov decision problems which often results in excessive computational cost. 
+\item \textbf{Convergence:} Even in fully observable, \texttt{markovian} settings, TD algorithms, e.g. Q-learning, most traditional reinforcement learning methods using function approximators have no convergence guarantees and there exist even divergence examples. 
+\item \textbf{Complexity:} Continuous states and actions in high dimensional spaces cannot be treated by most reinforcement learning approaches using TD methods, because they are difficult to represent using TD methods.
+\end{itemize}
+Policy gradient methods differ significantly as they do not suffer from these problems in the same way. For example, uncertainty in the state might degrade the performance of the policy (if no additional state estimator is being used) but the optimization techniques for the policy do not need to be changed. Continuous states and actions can be dealt with in exactly the same way as discrete ones while, in addition, the learning performance is often increased. \texttt{Convergence} at least to a local optimum is \texttt{guaranteed}.
+
+\subsubsection{Mathematical Formulation}
+\textsc{Understand:} by associating certain actions with certain stimuli in a stochastic fashion???
+\paragraph{Goal:} In policy optimization the goal is to optimize the expected reward/reward directly \[
+J\left(\mathbf{\theta}\right)=E\left[\sum\nolimits_{k=0}^{H}a_{k}r_{k}\right]
+\]
+according to the parameters $\theta \in \mathbb{R}^K$ of the policy $\pi_\theta$, where $a_k$ denote time-step dependent weighting factors, often set to $a_k=\gamma y_k$ for discounted reinforcement learning (where $\gamma$ is in [0,1]) or $a_k=\frac{1}{H}$ for the average reward case.
+
+\paragraph{Basic approach:}
+We model the learning system for a policy gradient method in a discrete-time manner and we will denote the current time step by k. The input to the system is described using a probability distribution $s_{k+1}\sim (s_{k+1}|s_k,a_k)$ as model where $s_k \in \mathbb{R}^M$ denotes the current action, and $s_k$, $s_{k+1}\in \mathbb{R}^N$ denote the current and next state, respectively.
+We furthermore assume that actions are generated by a policy $a_k \sim \pi_\theta(a_k\|s_k)$ which is modeled as a probability distribution in order to incorporate exploratory actions. The policy is assumed to be parameterized by K policy parameters $\theta \in \mathbb{R}^K$ 
+The sequence of states and actions forms a \texttt{trajectory} denoted by $\tau=[s_0:H,a_0:H]$ where H denotes the \texttt{horizon} which can be infinite.The words trajectory, history, trial, or roll-out are used interchangeably. At each instant of time, the learning system receives a reward denoted by $r_k=r(s_k,a_k)\in \mathbb{R}$.
+
+\paragraph{Optimization:} For real-world applications, any change to the policy parameterization has to be smooth because drastic changes can be hazardous for the actor. Furthermore useful initializations of the policy based on domain knowledge would otherwise vanish after a single update step. Therefore the policy method of choice is steepest descent on the expected return. The policy parametrization is thus updated according to the following gradient update rule
+\[
+\mathbf{\theta}_{h+1}=\mathbf{\theta}_{h}+\alpha_{h}\mathbf{\nabla
+}_{\mathbf{\theta}}J\vert _{\mathbf{\theta}=\mathbf{\theta}_{h}}
+\]
+where $\alpha \in \mathbb{R}^+$ denotes a learning rate and $h \in \{0,1,2,\dots\}$ the current update number. The time step k and update number h are two different variables. In actor-critic-based policy gradient methods, the frequency of updates of h can be nearly as high as of k. However, in most episodic methods, the policy update h will be significantly less frequent.\\
+The \texttt{main problem} in policy gradient methods is to obtain a good estimator of the policy gradient $\mathbf{\nabla}_{\mathbf{\theta}}J\vert
+_{\mathbf{\theta}=\mathbf{\theta}_{h}}$
+
+\subsubsection{Likelihood Ratio Method}
+Assume that trajectories $\tau$ are generated from the policy distribution of a system $\tau \sim p\theta(\tau)=p(\tau|\theta)$ with return $r(\tau)=\sum^H_{k=0}a_k r_k$ which leads to $J(\theta)=\E\left[r(\tau)\right]=\int_T p_\theta(\tau)r(\tau)d\tau_k$. In this case, the policy gradient can be estimated using the likelihood ratio better known as REINFORCE (Williams, 1992) trick, i.e., by using
+\[
+\nabla_\theta p_\theta(\tau)=p_\theta(\tau)\nabla_\theta \log p_\theta(\tau)
+\]
+from standard differential calculus: $\mathbf{\nabla}_{\mathbf{\theta}}\log p_{\mathbf{\theta}}\left(\mathbf{\tau}\right)
+=\mathbf{\nabla}_{\mathbf{\theta}}p_{\mathbf{\theta}}\left(\mathbf{\tau}\right)/p_{\mathbf{\theta}}\left(\mathbf{\tau}\right)$  
+we obtain
+\begin{align*}
+\mathbf{\nabla}_{\mathbf{\theta}}J\left(\mathbf{\theta}\right)&=\int_{\mathbf{T}}\mathbf{\nabla}_{\mathbf{\theta}}p_{\mathbf{\theta}}\left(\mathbf{\tau}\right)r(\mathbf{\tau})d\mathbf{\tau}\\
+&=\int_{\mathbf{T}}p_{\mathbf{\theta}}\left(\mathbf{\tau}\right)\mathbf{\nabla}_{\mathbf{\theta}}\log p_{\mathbf{\theta}}\left(\mathbf{\tau}\right)r(\mathbf{\tau})d\mathbf{\tau}\\
+&=E\left[\mathbf{\nabla}_{\mathbf{\theta}}\log p_{\mathbf{\theta}}\left(\mathbf{\tau}\right)r(\mathbf{\tau})\right].
+\end{align*}
+As the expectation $\E\left[\cdot\right]$ can be replaced by sample averages, denoted by $\langle \cdot \rangle$, only the derivative $\nabla_\theta \log p_\theta(\tau)$ is needed for the estimator. Importantly, this derivative can be computed without knowledge of the generating distribution $p_\theta(\tau)$ as
+\[
+p_{\mathbf{\theta}}\left(  \mathbf{\tau}\right)=p(\mathbf{s}_{0})\prod\nolimits_{k=0}
+^{H}p\left(  \mathbf{s}_{k+1}\left\vert \mathbf{s}_{k},\mathbf{a}_{k}\right.
+\right)  \pi_{\mathbf{\theta}}\left(  \mathbf{a}_{k}\left\vert \mathbf{s}
+_{k}\right.  \right)
+\]
+implies that
+\[
+\mathbf{\nabla}_{\mathbf{\theta}}\log p_{\mathbf{\theta}}\left(  \mathbf{\tau
+}\right)  =\sum\nolimits_{k=0}^{H}\mathbf{\nabla}_{\mathbf{\theta}}\log
+\pi_{\mathbf{\theta}}\left(  \mathbf{a}_{k}\left\vert \mathbf{s}_{k}\right.
+\right)
+\]
+as only the policy depends on $\theta$.
+By taking the sample average as Monte Carlo (MC) approximation of this expectation by taking N trial histories we get
+\[
+\mathbf{\nabla}_{\mathbf{\theta}}J=\frac{1}{N}\sum_{n=1}^N \mathbf{\nabla}_{\mathbf{\theta}}\log p_{\mathbf{\theta}}\left(\mathbf{\tau_n}\right)r(\mathbf{\tau_n}).
+\]
+which is a fast approximation of the policy gradient for the current policy.
+\textsc{N trials or N trial histories of one trial}
+
+\subsubsection{Drawbacks of Policy Gradient}
+Of course, policy gradients are not the salvation to all problems having significant problems themselves. They are by definition on-policy (note that tricks like importance sampling can slightly alleviate this problem) and need to \texttt{forget data very fast} in order to avoid the \texttt{introduction of a bias} to the gradient estimator. \textbf{Hence, the use of sampled data is not very efficient}. In tabular representations \textbf{???}, value function methods are guaranteed to converge to a global maximum while policy gradients only converge to a local maximum and there may be many maxima in discrete problems. %Policy gradient methods are often quite demanding to apply, mainly because one has to have considerable knowledge about the system one wants to control to make reasonable policy definitions. Finally, policy gradient methods always have an open parameter, the learning rate, which may decide over the order of magnitude of the speed of convergence, these have led to new approaches inspired by expectation-maximization (see, e.g., Vlassis et al., 2009; Kober & Peters, 2008).
+
+\subsection{Neuronal implementation of Policy Gradient Methods}
+\textsc{TODO: Biology, Neurons, Hebb, Perceptron $\rightarrow$ mathing law}
 
 \section{Energy-Based Models (EBM)}
 A scalar energy is associated to each configuration of the variables of interest in the model (cost function). Learning then corresponds to modifying the energy function so that its shape has desirable properties, for example we would like desirable configurations to have low energy. The probabilistic distribution of for the model is define by an energy function:
@@ -530,294 +723,5 @@ sigmoid function (sigm):
 \[
 	\sigma(t)=sig(t)=\frac{1}{1+\exp(-t)}=\frac{1}{2}\cdot(1+\tanh(\frac{t}{2}))
 \]
-
-
-\end{document}
-\textsc{TODO}
-
-\subsubsection{FastICA}
-\begin{enumerate}
-\item Initialize w
-\item Newton step $\mathbf{w}^{new}=\E \left[\mathbf{x}(g(\mathbf{w}^T\mathbf{x})-\mathbf{w}g'(\mathbf{w}^T\mathbf{x}))\right]$
-\item Renormalize $\mathbf{w}=\frac{\mathbf{w}^{new}}{\vectornorm{\mathbf{w}^{new}}}$
-\item if algorithm as not converged, go to 2)
-\end{enumerate}
-\subsubsection{Temporal ICA}
-\paragraph{Goal:} Find unmixing matrix W such that outputs of time-dependent signals are independent. 
-\paragraph{Assumptions:} Signals are time-dependendent and the different components may be recorded with delays $\tau_i$
-\[
-	\langle y_i(t)y_k(t-\tau_k) \rangle = \delta_{ik}\lambda(\tau)
-\]
-\section{Competitive Learning}
-
-\subsection{Clustering}
-\subsubsection{Nearest Neighbour}
-Initialize prototypes $p_k$ to represent groups of data points. Assign datapoints to nearest neighbouring prototype $\abs{\mathbf{p}_k-\mathbf{x}}\leq\abs{\mathbf{p}_i-\mathbf{x}}$ resulting in Voronoi tesselation of input space. For data compression the input $\mathbf{x}$ is classified and the index k transmitted. This gives rise to the construction error
-\[
-\E(\mathbf{w}_1, \dots, \mathbf{w}_n) = \sum_k \sum_{\mu \in C_k} (\mathbf{w}_k-\mathbf{x}^\mu)^2
-\]
-But how to choose initialization of prototypes? To minimize the reconstruction error one has discretize the input space adaptively.
-\subsubsection{K-Means}
-Standard K-means is based on a random initialization of prototypes. 
-\begin{enumerate}
-\item For every data pattern $x^\mu$ the winning prototype $\mathbf{p}_k$is determined with the nearest neighbour rule.
-\item The winning prototype is moved closer to the classified $\mathbf{x}_k^\mu$ by updating it according to $\Delta \mathbf{p}_k = \eta (\mathbf{p}_k-\mathbf{x}^\mu$).
-\end{enumerate}
-\paragraph{Showing that the error decreases}
-Gradient descent on the error surface in the following manner 
-\[
-\Delta \mathbf{p}_j = -\eta \frac{\partial\E}{\partial\mathbf{w}_j} = -\eta \frac{\partial}{\partial\mathbf{w}_j} \sum_k \sum_{\mu \in C_k} (\mathbf{w}_k-\mathbf{x}^\mu)^2
-\]
-\begin{align*}
-&\text{\textbf{batch update}}: \quad\Delta \mathbf{p}_j
-= -2\eta \sum_{\mu \in C_j}(\mathbf{x^\mu}-\mathbf{w}_j)\\
-&\text{\textbf{online update}}: \quad\Delta \mathbf{p}_j
-= 2\eta (\mathbf{x^\mu}-\mathbf{w}_j)
-\end{align*}
-In the batch update rule distances from the data points in the prototype's class are summed up and the prototype is moved towards the mean with step size $\eta$.\\
-After convergence: $\Delta w_k=0$
-\begin{align*}
-&\sum_{\mu \in C_k}\mathbf{w}_k-\sum_{\mu \in C_k}\mathbf{x}^\mu=N_k\mathbf{w}_k-\sum_{\mu \in C_k}\mathbf{x}^\mu\\
-&\Rightarrow \mathbf{w}_k=\frac{1}{N_k}\sum_{\mu \in C_k}\mathbf{x}^\mu
-\end{align*}
-So with the batch update rule each prototype is at the center of its data cloud after convergence.\\
-The online update has a stochastic component, because one has to choose a data point at random and move into its direction by the step size $\eta$. This causes the algorithm to jitter around the mean. To alleviate this problem the trick is to reduce $\eta$ so that the algorithm eventually freezes.
-\paragraph{Problem of dead units}
-Dead units are prototypes without data clouds. The error surface allows the algorithm to converge into a state permitting dead units through several local minima. To overcome this problem it is useful to initialize the prototypes to data points in k-means.
-
-\subsection{Neuronal Implementation of Clustering}
-(now multiple postsynaptic neurons for the same input?)
-In the neuronal implementation the data patterns take the form of sensory inputs to neurons in the brain, one postsynaptic neuron for every prototype $\mathbf{p}_j$. The activity of these neurons is defined by a non-linear neuron-model $v_1^{post}=y_1=g(\sum_k \mathbf{w}_{ik}\mathbf{x}_k^\mu)=g(\mathbf{w}^T\mathbf{x}^\mu)$ which performs a non-linear transform of the scalar product of the prototypes used as weights $\mathbf{w}_j=\mathbf{w}_k$ which are now synaptic weights and the sensory inputs.\\
-For \textsc{normalized weight vectors} the clustering expression $\abs{\mathbf{p}_k-\mathbf{x}}\leq\abs{\mathbf{p}_i-\mathbf{x}}$ can be rewritten to $\mathbf{w}_k^T\mathbf{x}\leq\mathbf{w}_k\mathbf{x}$. This means that the smallest distance to the prototype $\mathbf{w}_k$ results in the largest scalar product. We reformulate our clustering aim to finding the postsynaptic neuron with the maximal scalar product ("biggest total stimulation").
-
-\paragraph{Winner take all circuit}
-How can it be assured that only one neuron wins, that is to say that the respective input pattern is classified to a single prototype? Simply by introducing a \texttt{lateral term} incorporating activities of the other postsynaptic neurons for the other prototypes. The winner is the neuron that receives the most stimulation from outside (strongest outside drive) inhibiting the others which is equivalent to saying input pattern is classified to the prototype with which it forms the largest scalar product $\mathbf{w}_k\leq\mathbf{x}^\mu$.
-\begin{align*}
-&y_i(t+1)=g(\text{total drive})=g(\sum_k w(t+1)_{ik}\mathbf{x}_k^\mu+\sum_j B_{ij}y(t)_j),\quad B_{ij}<0\\
-&\Rightarrow y_i(t^{final})=\left\{\begin{array}{1} \text{1 for winner}\\\text{0 for others}\end{array} \right
-\end{align*}
-How to update weights?
-
-\paragraph{Hebbian Learning Rule (no inhibition)}
-For every pattern $\mathbf{x}^\mu$ find winning prototype $\mathbf{w}_k=\mathbf{p}_k$ and update it according to the following learning rule:
-\begin{align*}
-\frac{d}{dt}w_{ki}&=\eta(y_k x_i^\mu-\gamma w_{ki}y_k)\\
-&=\eta(\delta_{ki} x_i-w_{ki}\delta_{ki})\\
-&=\eta(x_i-w_{ki})%\\\text{Why can y_k be regarded constant?}
-\end{align*}
-update for winner k (only neuron active) is same eq. as before (k-means), now derived as a hebbian learning rule:
-\[
-\frac{d}{dt} \mathbf{w}_{k}=\eta(\mathbf{x}^\mu-\mathbf{w}_{k})
-\]
-
-\paragraph{Kohonen Learning Rule}
-\begin{enumerate}
-\item choose input $\mathbf{x}^\mu$
-\item determine winner k according to current weights for input (scalar product)
-\item update weights of winner k \[
-\frac{d}{dt} w_{ki}=\eta(y_kx_i^\mu-\gamma w_{ki}y_k)
-\]
-and neighbours j
-\[
-\frac{d}{dt} = \eta \Lambda(j,k)(\mathbf{x}^\mu-\mathbf{w}_j),\quad \text{on-line}
-\] Every neighbour j is inhibited according to inhibition coefficients of k for j.
-\item decrease size of neighbourhood function $\Lambda(j,k)$ to ensure convergence?
-\item reiterate from 1) until stabilization
-\end{enumerate}
-Thus, the neuron whose weight vector was closest to the input vector is updated to be even closer. The result is that the winning neuron is more likely to win the competition the next time a similar vector is presented, and less likely to win when a very different input vector is presented. As more and more inputs are presented, each neuron in the layer closest to a group of input vectors soon adjusts its weight vector toward those input vectors. Eventually, if there are enough neurons, every cluster of similar input vectors will have a neuron that outputs 1 when a vector in the cluster is presented, while outputting a 0 at all other times. Thus, the competitive network learns to categorize the input vectors it sees.
-
-\section{Reinforcement learning}
-
-\subsection{Introduction}
-\paragraph{RL vs. supervised learning}
-Supervised learning, used in statistical pattern recognition and artifical neural networks is learning from examples provided by a knowledgable external supervisor whereas in RL an agent is instructed to learn from its own experience. It is a ''behavioral'' learning problem: Through interaction between the learning system and its environment, whereas the system seeks to achieve a specific goal.
-
-\paragraph{trade-off exploration vs. exploitation}
-An agent has to exploit what it \textsc{already knows} in order to obtain a reward, but it also has to \textsc{explore} in order to make \textsc{better action selections} in the future. The agent must try a variety of actions and progressively favour those that appear to be best, because neither schemes can be pursued exclusively without failing a the task. Estimate reward probabilities vs. take action to maximize reward.
-
-\paragraph{RLs main characteristic}
-RL explicitly considers the \textsc{whole} problem of a goal-directed agent \textsc{interacting} with an uncertain environment. All reinforcement learning agents have explicit goals, can sense aspects of their environments, and can choose actions to influence their environments. Moreover, it is usually assumed from the beginning that the agent has to operate despite significant \textsc{uncertainty about the environment} it faces. When reinforcement learning involves \textsc{planning}, it has to address the \textit{interplay between planning and real-time action selection}, as well as the question of how environmental models are acquired and improved.\\
-An agent's actions are permitted to affect the future state of the environment (e.g., the next chess position, the level of reservoirs of the refinery, the next location of the robot), thereby affecting the options and opportunities available to the agent at later times. Correct choice requires taking into account indirect, delayed consequences of actions, and thus may require foresight or planning. The knowledge the agent brings to the task at the start--either from previous experience with related tasks or built into it by design or evolution--influences what is useful or easy to learn, but interaction with the environment is essential for adjusting behavior to exploit specific features of the task.
-
-\subsubsection{Elements of reinforcement learning}
-there are four main subelements of a reinforcement learning system.
-
-\paragraph{Policy}
-commonly denoted by $\pi$, it defines the learning agents way of behaving at a given time. Mapping from the perceived states of the environment to the actions that present themselves to the agent in these states. The policy alone is sufficient to determine the behaviour of an agent. In oder words, a policy is a rule used by the learning system to decide what to do, given the current state of the environment.
-
-\paragraph{Reward function}
-defines the goal in a reinforcement learning problem. Maps each perceived state of the environment to a single number, a reward, which describes the intrinsic desirability of the state. The agent's sole objective is to maximize its total gain from the rewards it receives.\\
-The reward function may serve as a basis for altering the agent's policy.
-
-\paragraph{Value function}
-While the reward function indicates which actions are immediately beneficial to the agent, a \textbf{value function} specifies what is good for the agent in the long run. The value of a state is the \textsc{expected} total amount of rewards the agent will accumulate from this state onwards.
-For example, a state might always yield a low immediate reward but still have a high value because it is regularly followed by other states that yield high rewards.
-
-\paragraph{Model of the environment}
-A model mimics the behaviour of the environment. \textit{For example, given a state and action, the model might predict the resultant next state and next reward}. Models are used for \textsc{planning}, by which we mean any way of deciding on a course of action by considering possible future situations before they are actually experienced. The incorporation of models and planning into reinforcement learning systems is a relatively \textsc{new development}. Early reinforcement learning systems were explicitly trial-and-error learners; what they did was viewed as almost the opposite of planning. Nevertheless, it gradually became clear that reinforcement learning methods are closely related to dynamic programming methods, which do use models, and that they in turn are closely related to state-space planning methods. 
-
-%\subsection{Evolutionary methods}
-%Genetic algorithms, genetic programming, simulated annealing, and other function optimization methods have also been used to solve reinforcement learning problems. These methods search directly in the space of policies without ever appealing to value functions. We call these \textbf{evolutionary methods} because their operation is analogous to the way biological evolution produces organisms with skilled behaviour even when they do not learn during their individual lifetimes (organisms that have chosen adaptive policies survive). Effective when space of policies is sufficiently small or accurately sensing the state of the environment is impossible.
-
-\subsection{Reward-based action learning: Q-values}
-In the case of a \texttt{1-step horizon} the agent starts of in an initial state $s$ from where he can get to several states $s_i'$ by choosing an associated action $a_i$. A reward $P_{s \rightarrow s'}^a$ is associated with every action.
-\paragraph{Goal:} The agent should find the optimal strategy $a^*$ resulting in the maximization $Q(s,a^*) > Q(s, a_j)$ of the expected reward $Q(S,a)=\sum_{s'} P_{s \rightarrow s'}^a R_{s \rightarrow s'}^a$.
-
-\paragraph{Update rule:}
-The Q values are however not known at the beginning, because the reward probabilities $P_{s \rightarrow s'}^a$ are not known. Therefore, the agent need to learn them via iterative updates: 
-\[
-\Delta Q(s,a) = \eta [r-Q(s,a)]
-\]
-\textsc{TODO: Intuitive explanation of the update rule}
-If the mean update has converged, then $<\Delta Q(s,a)> = 0$
-
-\subsubsection{Strategies for exploration vs. exploitation}
-There are different strategies for exploitation while correct Q-values are not known:
-\begin{itemize}
-	\item \textbf{Greedy strategy}: take action which looks best
-	\item \textbf{$\varepsilon$-greedy strategy}: take action which looks best with probability $P = 1-\varepsilon$
-	\item \textbf{Softmax strategy}: take action $a'$ which looks best with probability 
-	\[
-	P(a') = \frac{\exp{(\beta Q(a'))}}{\sum_a \exp{(\beta Q(a))}}
-	\]
-	\item \textbf{Optimistic greedy}: start off with Q values that are too big
-\end{itemize}
-
-\subsection{Bellmann Equation and SARSA}
-For \texttt{Multi-step horizon} reward-based action learning we reformulate the update rule to take into account the Q-values from the next step multiplied by a discount factor $\gamma$:
-\[
-	\Delta Q(s,a) = \eta \left[r-(Q(s,a) - \gamma Q(s', a'))\right]
-\]
-\paragraph{Bellman equation}
-We can use the Bellman equation to express the expected reward $Q(s,a)$over multiple horizons recursively: 
-\[
-	Q(s,a) = \sum_{s'}P_{s \rightarrow s'}^a [R_{s \rightarrow s'} + \gamma \sum_{a'} \pi(s',a')Q(s',a')]
-\]
-The $Q(s',a')$ are weighted differently according to the chosen policy $\pi$.
-
-\paragraph{SARSA algorithm}
-The Bellman equation can be used for the SARSA algorithm:
-\begin{enumerate}
-	\item Being in state s, chose action a according to \textbf{policy}
-	\item Observe reward r, next state s'
-	\item Choose action a' in state s' according to \textbf{policy}
-	\item Update $\Delta Q(s,a)$
-	\item $s' \rightarrow s$, $a' \rightarrow a$
-	\item Goto 1)
-\end{enumerate}
-\textsc{TODO: How to find policy?}
-
-\paragraph{Action Values Q versus State Values V}
-Almost all reinforcement learning algorithms are based on estimating value functions. These are functions of states (or of state-action pairs) that estimate how good it is for the agent to be in a given state (or
-how good it is to perform a given action in a given state). The notion of ``how good" here is defined in terms of future rewards that can be expected, or, to be precise, in terms of expected return. Of course the rewards the agent can expect to receive in the future depends on what actions it will take. Accordingly, value functions are defined with respect to particular policies.\\
-Recall that a policy $\pi$ is a mapping from states $s \in S$ and actions $a \in A$ to the probability $\pi(s,a)$ of taking action $a$ when in state s. Informally, the value of a state s under a
-policy $\pi$, denoted by $V^\pi(s)$ is the expected return when starting in s and following $\pi$ thereafter. For MDPs we can define .. formally as 
-% source Sutton and Barto: 3.7 Value Functions
-We can rewrite the Bellman equation and express it as State values V.
-\[
-	V^{\pi}(s) = \sum_a \pi(s,a) \sum_{s'} P^a_{s \overrightarrow s'} [R^a_{s \overrightarrow s'} + \gamma \sum_{a'}\pi(s',a')Q(s',a')]
-\]
-
-which we can write in form of the value function as:
-
-\[
-	V^{\pi}(s) = \sum_a \pi(s,a) \sum_{s'} P_{s \rightarrow s'}^a[R_{s \rightarrow s'}^a + \gamma V^{\pi}(s')]
-\]
-
-The difference between $Q$ and $V$ is the following: The value function is the expected return starting from state $s_t$ and following policy $\pi$. The state-action value function $Q(s,a)$ is the expected return starting from state $s$, taking action $a$ and thereafter following policy $\pi$.
-
-\subsection{On-policy vs off-policy learning}
-On-policy means SARSA; off-policy means Q-learning. The difference lies in the method how to compute $Q(s,a)$. While for SARSA, we use the policy for the discounted term $\gamma \sum_{a'} \pi(s',a')Q(s',a')$, the Q-learning algo simply does $\gamma * max_{a'}Q(s',a')$. Therefore, Q-learning uses greedy for update and the policy for action selection ($\eta$ -- greedy)
-
-\subsection{Eligibility traces}
-At the moment of the reward update, update also previous action values along trajectories. The problem is that learning is very slow and the information diffusion across several states takes time.
-
-$\gamma$ is the memory reduction parameter.
-Every time an action $a$ is taken, one should do the following:
-\begin{itemize}
-	\item If a = action taken in state j: $e_{aj}(t) = \gamma * \lambda * e(s,a) + 1$
-	\item else: $e(s,a)(t) = \gamma \lambda e(s,a)$ 
-\end{itemize}
-Then, for all states s and actions a:
-\[
-	\Delta Q(s,a) = \eta \delta_t e(s,a)
-\]
-An eligibility trace is a temporary record of the occurrence of an event, such as the visiting of a state or the taking of an action (backward view). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes. The more theoretical view is that they are a bridge from TD to Monte Carlo methods.
-
-\subsection{Continuous states}
-% needs some more explanation, I didn't fully get it.
-\[
-	Q(s,a) = \sum_j w_{aj}*r_j(s) = \sum_j w_{aj}*\phi(s-s_j)
-\]
-
-If the time interval between subsequent weight updates approaches zero, the difference between two consecutive states $s' - s = v(a) * \Delta t$, where $v(a)$ is the velocity resulting from the choice of the action a. $s'-s$ approximates zero, therefore $s' \approx s$. Similarly, the finer the time resolution becomes, the likelier is that $a \approx a'$. Thus, for small time steps, an online gradient descent on the erro term $E_t$ becomes closer to a $\delta_t$ modulated Hebbian rule. 
-
-\subsection{Temporal Difference TD($\lambda$)}
-TD incorporates eligibility and continuous state space. We do a function approximation using weights and instead of updating $Q(s,a)$. In general, we do not work with $Q(s,a)$ but rather with the $V(s)$ values.
-
-\[
-	Q_w(s,a) = \sum_{i=1}^n w_i^a * r_i(s)
-\]
-\[
-	\Delta w_{aj} = \eta \delta_t e_{aj}
-\]
-
-TODO: DOES SOMEBODY HAVE THE BLACKBOARD: REPRESENTATION OF STATE-VALUE Lecture 7 (Backgammon)
-
-We can write the eligibility trace as $e_{aj}(t) = \gamma \lambda e_{aj}(t-\Delta t) + r_j\delta_{a,a'}$
-
-\section{Energy-Based Models (EBM)}
-A scalar energy is associated to each configuration of the variables of interest in the model (cost function). Learning then corresponds to modifying the energy function so that its shape has desirable properties, for example we would like desirable configurations to have low energy. The probabilistic distribution of for the model is define by an energy function:
-\[
-	p(x)=\frac{\exp(-E(x))}{Z}
-\]
-This distribution is the Boltzmann or Gibbs distribution which originates from classical statistical mechanics.\\
-The normalization factor $Z$ is called the partition function $Z=\sum_x \exp(-E(x))$.\\
-An energy-based model can be learnt by performing (stochastic) gradient descent on the empirical negative log-likelihood of the training data.
-
-\subsection{EBMs with hidden units}
-Often one does not observe the examples $x$ fully or one wants to introduce some non-observed variables to increase the expressive power of the model. So we consider a hidden part $y$ additionally to the observed part $x$, giving:
-\[ 
-	P(x) = \sum_y P(x,y) = \sum_y \frac{\exp(-E(x,y))}{Z}
-\]
-By introducing the notation of \textsc{free energy}
-\[
-	\mathcal{F}= -\log\sum_y \exp(-\mathcal{F})
-\]
-we can the rewrite the probability distribution in the condensed of the gibbs distribution:
-\[
-	P(x)=\frac{exp(-\mathcal{F}(x))}{Z}, with Z=\sum_x \exp(-\mathcal{F}(x))
-\]
-
-\subsection{Restricted Boltzmann Machines (RBM)}
-Boltzmann Machines (BMs) are a particular form of log-linear (Gibbs distribution) Markov Random Fields (MRF), where the energy function is linear in its free parameters. In order to represent complicated distributions (limited parametric setting $\rightarrow$ non-parametric setting) we consider some of the variables to be hidden (not observed). One can increase the modeling capacity of the Boltzmann Machine (BM) by adding for hidden variables/units. Furthermore a RBM is restricted to a bipartite Graph, because there no lateral connections visible-visible and hidden-hidden are allowed. We introduce the notation of $v=x$ for visible units and $h=y$ for hidden units.\\
-The energy function therefore is defined as:
-\[
-	E(v,h)=-b^{t}v-c^{t}h-h^{t}W_{u,v}u
-\]
-where $W_{u,v}$ represents a connection matrix of weights for hidden and visible units and $b,c$ are the offsets of the visible and hidden layers respectively.\\
-By plugging in the energy function we get the following representation of the free energy formula:\\
-\[
-	F(v)=-b^{t}v-\sum_i\log\sum_{h_i} \exp(h_i(c_i+W_iv))
-\]
-
-Because of the specific structure of RBMs, visible and hidden units are conditionally independent of one-another 
-
-A particular set of ''synaptic'' weights is said to constitute a perfect model of the environmental structure if it leads to exactly the same probability distribution of the states of the visible units as when these units are clamped by the environmental input vectors.
-
-\subsubsection*{RBMs with binary units}
-Commonly RBMs are studied with binary units $v_i, h_i \in \{0,1\}$ ...
-The free energy simplifies to:\\
-\[
-	\mathcal{F}(v)=-b^{t}v-\sum_i\log(1+\exp(c_i+W_iv))
-\]
-
-deeplearning.net/tutorial/rbm.html
-
-sigmoid function (sigm):
-\[
-	\sigma(t)=sig(t)=\frac{1}{1+\exp(-t)}=\frac{1}{2}\cdot(1+\tanh(\frac{t}{2}))
-\]
-
 
 \end{document}

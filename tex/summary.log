@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  28 DEC 2013 15:58
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  28 DEC 2013 22:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -317,30 +317,78 @@ Acceptable delimiters are characters whose \delcode is
 nonnegative, or you can use `\delimiter <delimiter code>'.
 
 [20]
-Overfull \hbox (22.03085pt too wide) in paragraph at lines 473--475
-[]\OT1/cmr/m/n/10.95 eligibity traces im-ple-ment (short-term) mem-ory The weig
-hts grow/connection
+Overfull \hbox (2.68803pt too wide) in paragraph at lines 460--461
+ \OT1/cmr/bx/n/10.95 Neu-ro-mod-u-la-tion[] \OT1/cmr/m/n/10.95 Neu-ro-mod-u-la-
+tion is the phys-i-o-log-i-cal pro-cess by which
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 460--461
+
  []
 
 [21]
-Overfull \hbox (15.4636pt too wide) in paragraph at lines 485--489
+! Missing delimiter (. inserted).
+<to be read again> 
+                   \let 
+l.477 \end{align*}
+                  
+I was expecting to see something like `(' or `\{' or
+`\}' here. If you typed, e.g., `{' instead of `\{', you
+should probably delete the `{' by typing `1' now, so that
+braces don't get unbalanced. Otherwise just proceed.
+Acceptable delimiters are characters whose \delcode is
+nonnegative, or you can use `\delimiter <delimiter code>'.
+
+! Missing delimiter (. inserted).
+<to be read again> 
+                   \let 
+l.477 \end{align*}
+                  
+I was expecting to see something like `(' or `\{' or
+`\}' here. If you typed, e.g., `{' instead of `\{', you
+should probably delete the `{' by typing `1' now, so that
+braces don't get unbalanced. Otherwise just proceed.
+Acceptable delimiters are characters whose \delcode is
+nonnegative, or you can use `\delimiter <delimiter code>'.
+
+[22]
+Overfull \hbox (5.03085pt too wide) in paragraph at lines 526--528
+\OT1/cmr/m/n/10.95 eligibity traces im-ple-ment (short-term) mem-ory The weight
+s grow/connection
+ []
+
+[23] [24] [25]
+Overfull \hbox (4.88586pt too wide) in paragraph at lines 608--609
+[]\OT1/cmr/bx/n/10.95 Complexity: \OT1/cmr/m/n/10.95 Con-tin-u-ous states and a
+c-tions in high di-men-sional spaces
+ []
+
+
+Overfull \hbox (5.76642pt too wide) in paragraph at lines 613--614
+\OT1/cmr/m/sc/10.95 Understand: \OT1/cmr/m/n/10.95 by as-so-ci-at-ing cer-tain 
+ac-tions with cer-tain stim-uli in a stochas-
+ []
+
+[26] [27] [28]
+Overfull \hbox (15.4636pt too wide) in paragraph at lines 678--682
 \OT1/cmr/m/n/10.95 The nor-mal-iza-tion fac-tor $\OML/cmm/m/it/10.95 Z$ \OT1/cm
 r/m/n/10.95 is called the par-ti-tion func-tion $\OML/cmm/m/it/10.95 Z \OT1/cmr
 /m/n/10.95 = [][] [](\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/10.95 E\OT1/cmr/m/n/1
 0.95 (\OML/cmm/m/it/10.95 x\OT1/cmr/m/n/10.95 ))$. 
  []
 
-[22]
-Underfull \hbox (badness 10000) in paragraph at lines 509--512
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 702--705
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 521--523
+Underfull \hbox (badness 10000) in paragraph at lines 714--716
 
  []
 
-[23] (./summary.aux)
+[30] [31] (./summary.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -354,4 +402,4 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  27i,23n,24p,1528b,197s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on summary.pdf (23 pages).
+Output written on summary.pdf (31 pages).
