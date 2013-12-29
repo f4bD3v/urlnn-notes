@@ -1,15 +1,18 @@
 # Fdb version 3
-["pdflatex"] 1388270777 "summary.tex" "summary.pdf" "summary" 1388270777
+["pdflatex"] 1388315843 "summary.tex" "summary.pdf" "summary" 1388315843
   "/etc/texmf/web2c/texmf.cnf" 1380538431 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm" 1246382020 924 9904cf1d39e9767e7a3622f2a125a565 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm" 1246382020 928 2dc8d444221b7a635bb58038579b861a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm" 1246382020 908 2921f8a10601f252058503cc6570e581 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm" 1246382020 940 75ac932a52f80982a9f8ea75d03a34cf ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm" 1246382020 940 228d6584342e91276bf566bcf9716b83 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm" 1136768653 1332 f817c21a1ba54560425663374f1b651a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm" 1136768653 1344 8a0be4fe4d376203000810ad4dc81558 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm" 1136768653 1332 1fde11373e221473104d6cc5993f046e ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmcsc10.tfm" 1136768653 1300 63a6111ee6274895728663cf4b4e7e81 ""
@@ -46,9 +49,9 @@
   "/usr/share/texlive/texmf-dist/tex/xelatex/xetex-def/xetex.def" 1259285552 13899 9973935deb4241300a502b8fd412702b ""
   "/usr/share/texlive/texmf/web2c/texmf.cnf" 1351468918 31466 25867adcbb7c2423c76afd53e67c9231 ""
   "/var/lib/texmf/web2c/xetex/xelatex.fmt" 1380538470 2039573 c14b92b3d6d3750782a77b1585499ef4 ""
-  "summary.aux" 1388270777 8478 5bfcee9657ada9d189dc3addafc8b05f ""
-  "summary.tex" 1388270776 71725 63468fdded53ab9c67ea6706284e1a9a ""
-  "summary.toc" 1388270777 6616 a71f9de0fbfc491a3479c598a22b5d90 ""
+  "summary.aux" 1388315843 9935 05a6778b9598d4209279c0890b2a2ea4 ""
+  "summary.tex" 1388315841 78196 a1996996aab5357158fb863ef0e9e3d3 ""
+  "summary.toc" 1388315843 7767 e79a84de9991ae47fa3d11ee543a075c ""
   (generated)
   "summary.log"
   "/home/fab/Dropbox/UNI/MSc/HS13/URLNN/summary.log"

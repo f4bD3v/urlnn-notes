@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  28 DEC 2013 23:46
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  29 DEC 2013 12:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -134,11 +134,11 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ) (./summary.toc
 [1
 
-])
+] [2])
 \tf@toc=\write4
 \openout4 = `summary.toc'.
 
- [2] [3]
+ [3]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 45.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
@@ -321,13 +321,13 @@ Acceptable delimiters are characters whose \delcode is
 nonnegative, or you can use `\delimiter <delimiter code>'.
 
 [22]
-Overfull \hbox (2.68803pt too wide) in paragraph at lines 462--463
+Overfull \hbox (2.68803pt too wide) in paragraph at lines 462--465
  \OT1/cmr/bx/n/10.95 Neu-ro-mod-u-la-tion[] \OT1/cmr/m/n/10.95 Neu-ro-mod-u-la-
 tion is the phys-i-o-log-i-cal pro-cess by which
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 462--463
+Underfull \hbox (badness 10000) in paragraph at lines 462--465
 
  []
 
@@ -335,7 +335,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 462--463
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \let 
-l.479 \end{align*}
+l.481 \end{align*}
                   
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -347,7 +347,7 @@ nonnegative, or you can use `\delimiter <delimiter code>'.
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \let 
-l.479 \end{align*}
+l.481 \end{align*}
                   
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -357,53 +357,64 @@ Acceptable delimiters are characters whose \delcode is
 nonnegative, or you can use `\delimiter <delimiter code>'.
 
 [24]
-Overfull \hbox (5.03085pt too wide) in paragraph at lines 528--530
+Overfull \hbox (5.03085pt too wide) in paragraph at lines 530--532
 \OT1/cmr/m/n/10.95 eligibity traces im-ple-ment (short-term) mem-ory The weight
 s grow/connection
  []
 
 [25] [26] [27]
-Overfull \hbox (4.88586pt too wide) in paragraph at lines 610--611
+Overfull \hbox (4.88586pt too wide) in paragraph at lines 612--613
 []\OT1/cmr/bx/n/10.95 Complexity: \OT1/cmr/m/n/10.95 Con-tin-u-ous states and a
 c-tions in high di-men-sional spaces
  []
 
 
-Overfull \hbox (5.76642pt too wide) in paragraph at lines 615--616
+Overfull \hbox (5.76642pt too wide) in paragraph at lines 617--618
 \OT1/cmr/m/sc/10.95 Understand: \OT1/cmr/m/n/10.95 by as-so-ci-at-ing cer-tain 
 ac-tions with cer-tain stim-uli in a stochas-
  []
 
-[28] [29] [30]
-Overfull \hbox (15.4636pt too wide) in paragraph at lines 680--684
+[28] [29] [30] [31] [32]
+Overfull \hbox (9.49484pt too wide) in paragraph at lines 757--757
+[] 
+ []
+
+
+Overfull \hbox (21.12756pt too wide) in paragraph at lines 773--777
+$\OML/cmm/m/it/10.95 R[]$ \OT1/cmr/m/n/10.95 suc-cess sig-nal=phasic dopamine H
+ebb learn-ing rule is $[] []$ 
+ []
+
+[33] [34]
+Overfull \hbox (15.4636pt too wide) in paragraph at lines 818--822
 \OT1/cmr/m/n/10.95 The nor-mal-iza-tion fac-tor $\OML/cmm/m/it/10.95 Z$ \OT1/cm
 r/m/n/10.95 is called the par-ti-tion func-tion $\OML/cmm/m/it/10.95 Z \OT1/cmr
 /m/n/10.95 = [][] [](\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/10.95 E\OT1/cmr/m/n/1
 0.95 (\OML/cmm/m/it/10.95 x\OT1/cmr/m/n/10.95 ))$. 
  []
 
-[31]
-Underfull \hbox (badness 10000) in paragraph at lines 704--707
+[35]
+Underfull \hbox (badness 10000) in paragraph at lines 842--845
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 716--718
+Underfull \hbox (badness 10000) in paragraph at lines 854--856
 
  []
 
-[32] [33] (./summary.aux)
+[36] (./summary.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 1377 strings out of 495716
- 15903 string characters out of 3188883
- 66008 words of memory out of 3000000
- 4533 multiletter control sequences out of 15000+200000
- 13388 words of font info for 50 fonts, out of 3000000 for 9000
+ 1384 strings out of 495716
+ 15968 string characters out of 3188883
+ 67008 words of memory out of 3000000
+ 4537 multiletter control sequences out of 15000+200000
+ 14342 words of font info for 54 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  27i,23n,24p,1528b,197s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on summary.pdf (33 pages).
+Output written on summary.pdf (36 pages).

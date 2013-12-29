@@ -675,6 +675,142 @@ Of course, policy gradients are not the salvation to all problems having signifi
 \subsection{Neuronal implementation of Policy Gradient Methods}
 \textsc{TODO: Biology, Neurons, Hebb, Perceptron $\rightarrow$ mathing law}
 
+
+\section{3 Factor rules}
+\subsection{Integrate and fire model}
+\begin{itemize}
+\item the membrane potential v(t) defines the state of the neuron at time t
+\item Each spike causes an excursion of the membrane potential with amplitude w
+\item The membrane potential decays towards its resting value $V_0$
+\item If v(t) reaches a threshold value $V_th$, a spike is produced and v(t) is reset to its resting value
+\end{itemize}
+membrane potential?
+\[
+C_m \frac{dv(t)}{dt}=I_{\text{leak}}(t)+I_S(t)+I_{\text{inj}}(t)
+\]
+decay towards resting value $V_0$
+\[
+I_leak(t)=-\frac{C_m}{\tau_m}\left[v(t)-V_0\right]
+\]
+\paragraph{Response to constant input}
+sub-threshold stimulus 
+\[
+v(t) = V_0+I R_m(1-\exp(-(t-t_0)/\tau_m))
+\]
+supra-theshold stimulus
+\[
+T_{\text{ISI}}=-\tau_m\ln\left[1-\frac{\theta}{IR_m}\right],\quad (IR_m > \theta)
+\]
+where $\theta=(V_{th}-V_0)$
+\paragraph{Response to spike(delta) input}
+supra-threshold stimulus $I_leak(t)$ at $\Phi$ leads to post-synaptic potential with Weight J and Delay D:
+\[
+v_\delta(t)=J\cdot \exp(-\frac{(t-t_{sp}-D)}{\tau_m})
+\]
+
+\paragraph{Response to arbitrary input}
+for any linear system, response to an arbitrary stimulus is given by the convolution of the impulse response with the stimulus
+\begin{align*}
+	v(t)&=V_0+\frac{1}{C_m}\int^t_{t_0}\exp(-\frac{(t-t')}{\tau_m})\cdot I_{\text{Inj}}(t')dt'\\
+	&=V_0+\frac{1}{C_m}(v_\delta * I_{\text{Inj}})(t)
+\end{align*}
+
+Linear system means:
+\begin{itemize}
+\item if v(t) is a solution, then $\alpha v(t)$ is also a solution, for all $\alpha \in \mathbb{R}$
+\item If u(t) and v(t) are solutions, then u(t)+v(t) is also a solution
+\end{itemize}
+
+\subsection{Spike response model with stochastic firing}
+\paragraph{membrane potential} $\mathbf{u}$ is potential
+\[
+	u_i(t\vert \text{input}) = u_{rest}+\sum_{t_j^f}\varepsilon(t-t_j^f)+\sum_{t_j^f}\eta(t-t_j^f\eta(t-t_j^f)
+\]
+$t_j^f$ - time t wich presynaptic neuron fires
+
+\paragraph{probabilistic spike generation}
+the higher the potential (of the postsynaptic neuron) the more likely the neuron fires
+\[
+p(t\vert u_i)=g(u(t)) \propto \exp(\beta u(t))
+\]
+
+\paragraph{Probability of Spike Train}
+$x_j(t)=\sum_j \delta(t-t_j^f)$, $\varepsilon(t-t_j^f)$, $y(t)=\sum_n\delta(t-t^n)$
+\[
+P(y\vert x)=\prod_n p(t\vert \hat{t}^n)\exp\left[-\int_{\hat{t}^{n-1}}^{\hat{t}^n}p(t'\vert \hat{t}^{n-1})dt'\right]
+\]
+potential, $\hat{t}$=refractoriness, last spike
+\[
+u(t) = \sum_{j,f}w_j\varepsilon\underbrace{(t-t_j^f)}_{\text{all spikes, all neurons}}+\eta(t-\hat{t})
+\]
+stochastic firing
+\[
+p(t)=g(u(t))
+\]
+
+\subsection{R-max}
+\subsubsection{Derivation}
+optimization of an objective function, reward maximization by gradient ascent
+\begin{align*}
+\frac{d}{dt}w_{ij}(t)&=\eta \frac{d}{dw_{ij}}\langle R \rangle
+&=\eta \langle R(\text{spiketrain, input})\frac{d}{dw_{ij}}\log P(\text{spiketrain$\vert$ input}) \rangle
+\end{align*}
+Batch to online
+\[
+\frac{d}{dt}w_{ij}(t)\propto R(t)\int_{start}^t dt'\underbrace{\varepsilon(t'-t_j^{pre})}_{\text{\textcolor{red}{EPSP}}}\left[\underbrace{\delta(t'-t_i^f)-p(u(t'))}_{\text{Post}}\right]
+\]
+
+\subsubsection{Rule}
+Simple activity model Hebb rule:
+\[
+\frac{d}{dt}=H_{aj}(t)=r(s_t)r_a(t)-g\cdot H_aj(t)\]
+spiking hebb rule model:
+\[
+\frac{d}{dt}H_{aj}(t)\underbrace{\varepsilon(t'-t_j^{pre})}_{\text{\textcolor{red}{EPSP}}}\left[\underbrace{\delta(t'-t_i^f)-p(u(t'))}_{\text{Post}}\right]-g\cdot H_aj(t)
+\]
+\[
+\frac{d}{dt}w_{aj}=\eta R_t H_{aj}
+\]
+$R_t$ success signal=phasic dopamine
+Hebb learning rule is $\text{EPSP}\left[\delta(t-t_i^f)-p(u)\right]$\\
+$\langle H_{ij} \rangle = 0$, repeating a fixed input has no Hebb-learning effect
+
+\subsection{R-STDP}
+\[
+	\Delta w_{ij} \propto S(R)\times \text{STDP}
+\]
+\begin{align*}
+\Delta w_{ij} &\propto S(R)\times f(\text{pre},\text{post})
+&=S(R)\times H_{ij}
+\end{align*}
+Hebbian Learning Rule is STDP\\
+$\langle H_{ij} \rangle \neq 0$, repeating a fixed input gives a hebb-learning effect
+
+\subsection{When do 3-factor rules work?}
+both rules discussed have the form 
+\begin{align*}
+\Delta w_{ij} &\propto S \cdot H_{ij}\\
+&=\underbrace{\langle S\cdot H_{ij}\rangle - \langle S \rangle \langle H_{ij} \rangle}_{\text{\textcolor{green}{good: cov(R,H)}}} + \underbrace{\langle S \rangle \langle H_{ij} \rangle}_{\text{\textcolor{red}{bad}}}
+\end{align*}
+$\langle S \rangle \langle H_{ij} \rangle$ has to be neutralized, Always the case for R-max ($\langle H_{ij} \rangle=0$)\\
+For R-STDP use $R \rightarrow S(R)=R-\langle R \rangle$ (Success=Reward-exp.Reward)\\
+Good three factor rules are either 
+\begin{itemize}
+\item \texttt{useless} for unsupervised hebbian learning
+\item or the average neuromodulatory reward signal S must be zero $S = R - \langle R \rangle \Rightarrow$ system must know running average of expected reward $\langle R \rangle$
+\end{itemize}
+
+\subsection{Application to Hand Movements}
+\subsubsection{How are movements represented}
+\begin{itemize}
+\item muscle coordinates, vector of muscle activations over time
+\item Joint coordinates - vector of joint angles over time
+\item World coordinates - vector of positions in 3D space
+\end{itemize}
+
+\subsubsection{Detour: neural encoding of movement direction}
+monkey pushes red button - experiment, reaching movements involve many muscles, neurons in motor cortex are tuned to movement direction, tuning curve for motor neurons, accuracy of population code
+
 \section{Energy-Based Models (EBM)}
 A scalar energy is associated to each configuration of the variables of interest in the model (cost function). Learning then corresponds to modifying the energy function so that its shape has desirable properties, for example we would like desirable configurations to have low energy. The probabilistic distribution of for the model is define by an energy function:
 \[
