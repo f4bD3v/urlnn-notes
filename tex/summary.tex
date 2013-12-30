@@ -2,6 +2,7 @@
 \usepackage{amsmath, amssymb}
 \usepackage{color}
 \usepackage{comment}
+\usepackage{listings}
 
 \DeclareMathOperator{\E}{\mathbb{E}}
 \newcommand\abs[1]{\left|#1\right|}
@@ -127,12 +128,12 @@ $C_{kj}$ are the correlation matrix components.
 \subsubsection{Detection of correlation}
 \label{sec:correlationDerivation}
 
-We denote here the weight vector between the post- and presynaptic neuron as $\boldsymbol{w}$, its components are $w_i$ for $i$ from $1$ to $N$. (Note that we left out the second index because we are only considering a single postsynaptic neuron.)
+We denote here the weight vector between the post- and presynaptic neuron as $\vec{w}$, its components are $w_i$ for $i$ from $1$ to $N$. (Note that we left out the second index because we are only considering a single postsynaptic neuron.)
 
 From what we had before, we get:
 %\paragraph{Weight update.} Considering a simple Hebbian learning rule, we have:
 %\[\frac{dw_j}{dt} = a_2^{corr} v^{post} v_j^{pre}\]
-%Now consider presenting pattern $\boldsymbol{x}^\mu$ during a time $\Delta t$. Substituting some, simplfying and ignoring $\Delta t$ just for the sake of succintness, we get:
+%Now consider presenting pattern $\vec{x}^\mu$ during a time $\Delta t$. Substituting some, simplfying and ignoring $\Delta t$ just for the sake of succintness, we get:
 %\[ \Delta w_j(\mu) = a_2 \sum_k w_k x_k^\mu x_j^\mu \]
 %If we consider a batch update, we update the weight after all $p$ input patterns have been presented. We get:
 %\begin{align*}
@@ -140,41 +141,61 @@ From what we had before, we get:
 %&= a_2 \sum_k \underbrace{\left(\frac{1}{p} \sum_\mu x_k^\mu x_j^\mu\right)}_{C_{kj}} w_k
 %\end{align*}
 %In vector notation, with incorporation of $\Delta t$ and assuming that this is small, we get:
-\[ \frac{d\boldsymbol{w}}{dt} = a_2 C \boldsymbol{w}\]
+\[ \frac{d\vec{w}}{dt} = a_2 C \vec{w}\]
 which is an ordinary matrix differential equation\footnote{Some information on the topic can be found on http://en.wikipedia.org/wiki/Matrix\_differential\_equation}.
 
 \paragraph{Solving the differential equation}
-We know that particular solutions to the equation have the form $\boldsymbol{w} = \alpha (t) \boldsymbol{e}_n$, with $\boldsymbol{e}_n$ the $n$-th eigenvector of $C$. The general solution is hence a sum of such terms, incorporating all eigenvectors.
+We know that particular solutions to the equation have the form $\vec{w} = \alpha (t) \vec{e}_n$, with $\vec{e}_n$ the $n$-th eigenvector of $C$. The general solution is hence a sum of such terms, incorporating all eigenvectors.
 
-Note also that $C$ is symmetric and as such has real eigenvalues. We can write $C\boldsymbol{e}_k = \lambda_k\boldsymbol{e}_k$, for $1\leq k \leq N$.
+Note also that $C$ is symmetric and as such has real eigenvalues. We can write $C\vec{e}_k = \lambda_k\vec{e}_k$, for $1\leq k \leq N$.
 %Apparently the eigenvalues are also positive. This can only be the case when C is positive-definite. Why is this so?
 
 With this knowledge we easily derive:
 \begin{align*}
-\frac{d\boldsymbol{w}}{dt} = \frac{d}{dt}\alpha(t)\boldsymbol{e}_n &= a_2 C \boldsymbol{e}_n \alpha(t) \\
-&=a_2 \lambda_n \boldsymbol{e}_n \alpha(t)
+\frac{d\vec{w}}{dt} = \frac{d}{dt}\alpha(t)\vec{e}_n &= a_2 C \vec{e}_n \alpha(t) \\
+&=a_2 \lambda_n \vec{e}_n \alpha(t)
 \end{align*}
 And:
-\[\boldsymbol{w}(t) = \sum_n \exp(a_2 \lambda_n t) \boldsymbol{e}_n\]
+\[\vec{w}(t) = \sum_n \exp(a_2 \lambda_n t) \vec{e}_n\]
 
 \paragraph{Wrapping it up}
 We know that the eigenvalues are both real and positive, so we can order them as follows:
 \[ \lambda_1 \geq \lambda_2 \geq ... \geq \lambda_N > 0\]
 Hence, we can write:
-\[\boldsymbol{w}(t) = e^{\lambda_1 a_2 t} \sum_k \exp(a_2 (\lambda_k-\lambda_1) t) \boldsymbol{e}_k\]
-It is immediately clear that since $\lambda_1$ is the largest eigenvalue, in the limit $\boldsymbol{w}$ will become parallel to $\boldsymbol{e}_1$, which is the principal component of the input set\footnote{In fact, this is only true when $\langle \boldsymbol{x}\rangle = 0$, in which case the covariance equals the correlation.}. Hence, the neuron detects correlations in the input.
-
+\[\vec{w}(t) = e^{\lambda_1 a_2 t} \sum_k \exp(a_2 (\lambda_k-\lambda_1) t) \vec{e}_k\]
+It is immediately clear that since $\lambda_1$ is the largest eigenvalue, in the limit $\vec{w}$ will become parallel to $\vec{e}_1$, which is the principal component of the input set\footnote{In fact, this is only true when $\langle \vec{x}\rangle = 0$, in which case the covariance equals the correlation.}. 
+Since the postsynaptic neuron firing rate is equal to the dot product of the input rates with the weight vector, the output is actually the projection of the input onto the principal component. It is the size of the input along the axis of maximal variance.
+Hence, the neuron detects correlations in the input.
 
 
 \subsubsection{PCA} Using PCA we can detect the direction of maximal variance in the set of patterns, hence the Hebbian learning rule basically implements PCA where only the first principal component is retained.
 
- think of neuronal output as projection of weight vector, fill in PCA equations
+We consider $C$ to be the correlation matrix, as before. Now, also consider
+\[C_{kj}^0 = \left\langle (x_k-\langle x_k \rangle)(x_j - \langle x_j \rangle)\right\rangle\]
+i.e. $C^0$ is the covariance matrix of the input.
+
+Now, let's denote the eigenvectors of $C^0$ as $\vec{e}_n$ and the corresponding eigenvalues as $\lambda_n$:
+\[ C^0\vec{e}_n = \lambda_n \vec{e}_n \]
+Let's assume that the eigenvectors are ordered and that the vector with largest associated eigenvalue is $\vec{e}_1$. This vector is called the \textbf{principal component}.
+
+The PCA algorithm is summarized in Listing \ref{list:pca}.
+
+\begin{lstlisting}[caption= PCA-algorithm, label=list:pca]
+1. Substract mean
+2. Calculate covariance matrix
+3. Calculate eigenvectors
+\end{lstlisting}
+
+\paragraph{Dimensionality reduction} PCA can be used to perform a dimensionality reduction. In this case, the principal components of a data set are determined and only the first (i.e. most significant) components are retained.
+
 \subsection{Oja's rule}
 The Oja learning rule is a mathematical formalization of the Hebbian learning rule, such that over time the neuron actually learns to compute a principal component of its input stream. The forgetting term added to balance the growth of the weights this time is not only proportional to the value of the weight, but also to the square of the output of the neuron $v_i$.
 \[
-\frac{d}{dt}w_{ij}=a_2^{corr}v_jv_i-\underbrace{a_2^{post}}_{a_2^{corr}w_{ij}}(v_i^{post})^2=a_2^{corr}(v_jv_i-w_{ij}(v_i^{post})^2)
+\frac{d}{dt}w_{ij}=a_2^{corr}v_j^{pre}v_i^{post}-\underbrace{a_2^{post}}_{a_2^{corr}w_{ij}}(v_i^{post})^2=a_2^{corr}(v_j^{pre}v_i^{post}-w_{ij}(v_i^{post})^2)
 \]
 Now, the forgetting term balances the growth of the weight. The squared output $(v_i^{post})^2$ guarantees that the larger the output of the neuron becomes, the stronger is this balancing effect.
+
+This has the result that the norm of the weight vector tends to one. Compare this to the result obtained in Section \ref{sec:correlationDerivation}, where we ended up with weights that grew exponentially without bound.
 \subsubsection{Oja's rule and PCA}
 \[
 v_i^{post}=\mathbf{w}^T\mathbf{x}^\mu
@@ -182,12 +203,14 @@ v_i^{post}=\mathbf{w}^T\mathbf{x}^\mu
 \[
 \frac{d}{dt}\mathbf{w}=a_2^{corr}(\mathbf{x}^\mu \mathbf{x}^{\mu T}\mathbf{w}-\mathbf{w}^T\mathbf{x}^\mu \mathbf{x}^{\mu T}\mathbf{w}\mathbf{w}), \{x^\mu, 0 \leq \mu \leq p\}
 \]
-This is the incremental change for just one input vector $x^\mu$. When the algorithm is run for a long time, changing the input vector at every step, one can look at the average behaviour. An especially interesting question is what is the value of the weights when the average change in the weight is zero. This is the point of convergence of the algorithm. Averaging right hand side over $x^\mu$ while $w$ stays constant yields the following equation.
+This is the incremental change for just one input vector $x^\mu$. When the algorithm is run for a long time, changing the input vector at every step, one can look at the average behaviour. An especially interesting question is what the value of the weights is when the average change in weights is zero. This is the point of convergence of the algorithm. Averaging the right hand side over $x^\mu$ while $w$ stays constant yields the following equation.
 \[
 \frac{d}{dt}\mathbf{w}=a_2^{corr}(\underbrace{\langle \mathbf{x}\mathbf{x^T} \rangle}_{C} \mathbf{w}-\underbrace{(\mathbf{w}^T\underbrace{\langle \mathbf{x}\mathbf{x^T} \rangle}_{C} \mathbf{w}}_{\lambda})\mathbf{w})=0, \overline{x}=0
 \]
-Considering that the quadratic form $w^TCw$ is a scalar, this equation clearly is the eigenvalue-eigenvector equation for the covariance matrix C. This analysis shows that if the weights converge in the Oja learning rule $C\mathbf{w}=\lambda\mathbf{w}$, then the weight vector becomes one of the eigenvectors of the input covariance matrix $\mathbf{w}=\mathbf{e_1}$ (\textsc{only this state is stable}), and the output of the neuron becomes the corresponding principal component. Principal components are defined as the inner products between the eigenvectors and the input vectors. For this reason, the simple neuron learning by the Oja rule becomes a principal component analyzer (PCA).
-Although not shown here, it has been proven that the neuron will find the the \texttt{first principal component} and the norm of the weight vector tends to one.
+Considering that the quadratic form $w^TCw$ is a scalar, this equation clearly is the eigenvalue-eigenvector equation for the covariance matrix C. This analysis shows that if the weights converge in the Oja learning rule $C\mathbf{w}=\lambda\mathbf{w}$, then the weight vector becomes one of the eigenvectors of the input covariance matrix $\mathbf{w}=\mathbf{e_1}$ (\textsc{only this state is stable}), and the output of the neuron becomes the corresponding principal component. 
+
+Principal components are defined as the inner products between the eigenvectors and the input vectors. For this reason, the simple neuron learning by the Oja rule becomes a principal component analyzer (PCA).
+Although not shown here, it has been proven that the neuron will find the the \texttt{first principal component} (as shown in the second exercise session) and the norm of the weight vector tends to one (can be found on Wikipedia\footnote{http://en.wikipedia.org/wiki/Oja's\_rule under 'Derivation'}).
 \textsc{PCA is used for Hebbian learning in \textbf{linear} neurons}
 
 \subsection{Independent Component Analysis (ICA)}
