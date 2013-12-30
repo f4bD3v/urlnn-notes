@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  29 DEC 2013 12:17
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.9.30)  30 DEC 2013 14:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -287,7 +287,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 394--397
  []
 
 [20]
-Overfull \hbox (43.88057pt too wide) in paragraph at lines 409--411
+Overfull \hbox (43.88057pt too wide) in paragraph at lines 412--414
 \OT1/cmr/m/n/10.95 use the pol-icy $\OML/cmm/m/it/10.95 ^^Y$ \OT1/cmr/m/n/10.95
  to se-lect the ac-tion $\OML/cmm/m/it/10.95 a[]$ \OT1/cmr/m/n/10.95 for the di
 s-counted term ($\OML/cmm/m/it/10.95 ^^M [][] ^^Y\OT1/cmr/m/n/10.95 (\OML/cmm/m
@@ -295,11 +295,11 @@ s-counted term ($\OML/cmm/m/it/10.95 ^^M [][] ^^Y\OT1/cmr/m/n/10.95 (\OML/cmm/m
 \OML/cmm/m/it/10.95 s[]; a[]\OT1/cmr/m/n/10.95 )$),
  []
 
-[21]
+[21] [22]
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \let 
-l.447 \end{align*}
+l.451 \end{align*}
                   
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -311,7 +311,7 @@ nonnegative, or you can use `\delimiter <delimiter code>'.
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \let 
-l.447 \end{align*}
+l.451 \end{align*}
                   
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -320,14 +320,14 @@ braces don't get unbalanced. Otherwise just proceed.
 Acceptable delimiters are characters whose \delcode is
 nonnegative, or you can use `\delimiter <delimiter code>'.
 
-[22]
-Overfull \hbox (2.68803pt too wide) in paragraph at lines 462--465
+
+Overfull \hbox (2.68803pt too wide) in paragraph at lines 466--469
  \OT1/cmr/bx/n/10.95 Neu-ro-mod-u-la-tion[] \OT1/cmr/m/n/10.95 Neu-ro-mod-u-la-
 tion is the phys-i-o-log-i-cal pro-cess by which
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 462--465
+Underfull \hbox (badness 10000) in paragraph at lines 466--469
 
  []
 
@@ -335,7 +335,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 462--465
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \let 
-l.481 \end{align*}
+l.485 \end{align*}
                   
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -347,7 +347,7 @@ nonnegative, or you can use `\delimiter <delimiter code>'.
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \let 
-l.481 \end{align*}
+l.485 \end{align*}
                   
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -356,37 +356,37 @@ braces don't get unbalanced. Otherwise just proceed.
 Acceptable delimiters are characters whose \delcode is
 nonnegative, or you can use `\delimiter <delimiter code>'.
 
-[24]
-Overfull \hbox (5.03085pt too wide) in paragraph at lines 530--532
+[24] [25]
+Overfull \hbox (5.03085pt too wide) in paragraph at lines 534--536
 \OT1/cmr/m/n/10.95 eligibity traces im-ple-ment (short-term) mem-ory The weight
 s grow/connection
  []
 
-[25] [26] [27]
-Overfull \hbox (4.88586pt too wide) in paragraph at lines 612--613
+[26] [27]
+Overfull \hbox (4.88586pt too wide) in paragraph at lines 616--617
 []\OT1/cmr/bx/n/10.95 Complexity: \OT1/cmr/m/n/10.95 Con-tin-u-ous states and a
 c-tions in high di-men-sional spaces
  []
 
-
-Overfull \hbox (5.76642pt too wide) in paragraph at lines 617--618
+[28]
+Overfull \hbox (5.76642pt too wide) in paragraph at lines 621--622
 \OT1/cmr/m/sc/10.95 Understand: \OT1/cmr/m/n/10.95 by as-so-ci-at-ing cer-tain 
 ac-tions with cer-tain stim-uli in a stochas-
  []
 
-[28] [29] [30] [31] [32]
-Overfull \hbox (9.49484pt too wide) in paragraph at lines 757--757
+[29] [30] [31] [32]
+Overfull \hbox (9.49484pt too wide) in paragraph at lines 761--761
 [] 
  []
 
-
-Overfull \hbox (21.12756pt too wide) in paragraph at lines 773--777
+[33]
+Overfull \hbox (21.12756pt too wide) in paragraph at lines 777--781
 $\OML/cmm/m/it/10.95 R[]$ \OT1/cmr/m/n/10.95 suc-cess sig-nal=phasic dopamine H
 ebb learn-ing rule is $[] []$ 
  []
 
-[33] [34]
-Overfull \hbox (15.4636pt too wide) in paragraph at lines 818--822
+[34]
+Overfull \hbox (15.4636pt too wide) in paragraph at lines 822--826
 \OT1/cmr/m/n/10.95 The nor-mal-iza-tion fac-tor $\OML/cmm/m/it/10.95 Z$ \OT1/cm
 r/m/n/10.95 is called the par-ti-tion func-tion $\OML/cmm/m/it/10.95 Z \OT1/cmr
 /m/n/10.95 = [][] [](\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/10.95 E\OT1/cmr/m/n/1
@@ -394,16 +394,16 @@ r/m/n/10.95 is called the par-ti-tion func-tion $\OML/cmm/m/it/10.95 Z \OT1/cmr
  []
 
 [35]
-Underfull \hbox (badness 10000) in paragraph at lines 842--845
+Underfull \hbox (badness 10000) in paragraph at lines 846--849
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 854--856
+Underfull \hbox (badness 10000) in paragraph at lines 858--860
 
  []
 
-[36] (./summary.aux)
+[36] [37] (./summary.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -417,4 +417,4 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  27i,23n,24p,1528b,197s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on summary.pdf (36 pages).
+Output written on summary.pdf (37 pages).
