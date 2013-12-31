@@ -190,7 +190,6 @@ The PCA algorithm is summarized in Listing \ref{list:pca}.
 
 \paragraph{Theorem: the first component has maximal variance.}
 We can easily prove this as follows. Let's still consider $y$ to be the output of a neuron, as such being the dot product of the input and weight vectors. We now need to find the direction of $\vec{w}$ that will cause $y$ to have maximal variance.
-
 The variance $V$ is defined as:
 \begin{align*}
 V = \langle y^2 \rangle &= \langle (\vec{w}\cdot\vec{x})^2\rangle \\
@@ -204,6 +203,16 @@ And since $\vec{w}$ is normalized, we have
 Hence:
 \[ V = \sum \alpha_k^2\vec{e}_k^T C^0 \vec{e}_k = \sum \alpha_k^2\lambda_k\]
 We can easily see that since $\lambda_1$ is the largest eigenvalue, the largest variance will be achieved when $\vec{w} = \vec{e}_1$ (because of the normalization). This proves the theorem.
+
+We could also try to solve the problem of finding the first principal component by using Lagrange multipliers. The method of Lagrange multipliers provides a strategy for finding the local maxima and minima of a function subject to equality constraints. Consider the optimization problem maximize $f(\omega)$, subject to $g(\omega) = c$. Both $f,g$ need to have continuous first partial derivatives. A new variable, $\lambda$ called Lagrange multiplier is introduced and the Lagrange function is defined by
+\[
+	L(\lambda, \omega) = f(\omega) - \lambda(g(\omega) - c)
+\]
+If $\omega_0$ is a maximizer of $f(\omega)$, for the original constraint problem, then there exists $\lambda_0$ such that $(\omega_0, \lambda_0$ is a stationary point for the Lagrange function. In the case of PCA, the function we'd like to maximize is the variance. If the data has zero-mean, we can write
+\[
+	f(\omega) = < y^2 > = < (\omega^T * x)^2 > = \omega^T <x x^T> \omega = \omega^T C \omega
+\]
+And we can observe that the optimal $\omega$ is an eigenvector of the covariance matrix C. Among all the eigenvectors, $\omega^*$ is the one corresponding to the largest eigenvalue, as we try to maximize $\omega^T C \omega$ which is equal to $\lambda$.
 
 \subsection{Oja's rule}
 The Oja learning rule is a mathematical formalization of the Hebbian learning rule, such that over time the neuron actually learns to compute a principal component of its input stream. The forgetting term added to balance the growth of the weights this time is not only proportional to the value of the weight, but also to the square of the output of the neuron $v_i$.
