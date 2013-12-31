@@ -301,6 +301,18 @@ online
 \textsc{TODO}
 
 \subsubsection{FastICA}
+The algorithm is based on a fixed-point iteration scheme maximizing non-Gaussianity as a measure of statistical independence. It can be derived as an approximative Newton iteration. We start with a Taylor expansion:
+\[
+	f(x + \bigtriangleup x) \approx f(x) + \bigtriangledown f(x)^T \bigtriangleup x + \frac{1}{2} \bigtriangleup x^T B \bigtriangleup x
+\]
+where B is an approximation of the Hessian matrix. The gradient can be written as
+\[
+	\bigtriangledown f(x + \bigtriangleup x) \approx \bigtriangledown f(x) + B \bigtriangleup x
+\]
+Setting this gradient to zero provides the Newton step
+\[
+	\bigtriangleup x = - B^{-1} * \bigtriangledown f(x)
+\]
 \begin{enumerate}
 \item Initialize w
 \item Newton step $\mathbf{w}^{new}=\E \left[\mathbf{x}g(\mathbf{w}^T\mathbf{x})-\mathbf{w}g'(\mathbf{w}^T\mathbf{x})\right]$
