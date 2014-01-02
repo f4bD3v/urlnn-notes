@@ -30,7 +30,7 @@ $http://www.scholarpedia.org/article/Receptive\_field$
 \subsubsection{Visual Receptive Fields}
 ICA 2, discourse receptive fields. 
 
-\paragraph{Receptive Field Development}
+\paragraph{Receptive Field Development} I highly recommend reading the section of Gerstner's book on this subject at http://icwww.epfl.ch/~gerstner/SPNM/node77.html\#SECTION04214000000000000000.
 
 
 \section{Supervised vs. Unsupervised learning}
@@ -361,60 +361,71 @@ This can be further simplified, which yields the following algorithm, fastICA:
 
 \subsection{Clustering}
 \subsubsection{Nearest Neighbour}
-Initialize prototypes $p_k$ to represent groups of data points. Assign datapoints to nearest neighbouring prototype $\abs{\mathbf{p}_k-\mathbf{x}}\leq\abs{\mathbf{p}_i-\mathbf{x}}$ resulting in Voronoi tesselation of input space. For data compression the input $\mathbf{x}$ is classified and the index k transmitted. This gives rise to the construction error
+Initialize prototypes $p_k$ to represent groups of data points. Assign datapoints to nearest neighbouring prototype $\abs{\mathbf{w}_k-\mathbf{x}}\leq\abs{\mathbf{w}_i-\mathbf{x}}$ resulting in a Voronoi tesselation of the input space. For data compression the input $\mathbf{x}$ is classified and the index k transmitted. This gives rise to the construction error
 \[
 \E(\mathbf{w}_1, \dots, \mathbf{w}_n) = \sum_k \sum_{\mu \in C_k} (\mathbf{w}_k-\mathbf{x}^\mu)^2
 \]
-But how to choose initialization of prototypes? To minimize the reconstruction error one has discretize the input space adaptively.
+where $C_k$ are the different clusters.
+But how do we choose the prototypes? To minimize the reconstruction error one has discretize the input space adaptively, cfr. vector quantization.
 \subsubsection{K-Means}
 Standard K-means is based on a random initialization of prototypes. 
 \begin{enumerate}
-\item For every data pattern $x^\mu$ the winning prototype $\mathbf{p}_k$is determined with the nearest neighbour rule.
-\item The winning prototype is moved closer to the classified $\mathbf{x}_k^\mu$ by updating it according to $\Delta \mathbf{p}_k = \eta (\mathbf{p}_k-\mathbf{x}^\mu$).
+\item For every data pattern $x^\mu$ the winning prototype $\mathbf{w}_k$is determined with the nearest neighbour rule.
+\item The winning prototype is moved closer to the classified $\mathbf{x}_k^\mu$ by updating it according to $\Delta \mathbf{w}_k = \eta (\mathbf{x}^\mu - \mathbf{w}_k$).
 \end{enumerate}
 \paragraph{Showing that the error decreases}
-Gradient descent on the error surface in the following manner 
+Gradient descent on the error surface yields: 
+%The order of w and x in the formulas is quite important! (Otherwise you move away from the new data point.) The formulas here were quite messed up in that respect.
 \[
-\Delta \mathbf{p}_j = -\eta \frac{\partial\E}{\partial\mathbf{w}_j} = -\eta \frac{\partial}{\partial\mathbf{w}_j} \sum_k \sum_{\mu \in C_k} (\mathbf{w}_k-\mathbf{x}^\mu)^2
+\Delta \mathbf{w}_j = -\eta \frac{\partial\E}{\partial\mathbf{w}_j} = -\eta \frac{\partial}{\partial\mathbf{w}_j} \sum_k \sum_{\mu \in C_k} (\mathbf{w}_k-\mathbf{x}^\mu)^2
 \]
 \begin{align*}
-&\text{\textbf{batch update}}: \quad\Delta \mathbf{p}_j
-= -2\eta \sum_{\mu \in C_j}(\mathbf{x^\mu}-\mathbf{w}_j)\\
-&\text{\textbf{online update}}: \quad\Delta \mathbf{p}_j
+&\text{\textbf{batch update}}: \quad\Delta \mathbf{w}_j
+= 2\eta \sum_{\mu \in C_j}(\mathbf{x^\mu}-\mathbf{w}_j)\\
+&\text{\textbf{online update}}: \quad\Delta \mathbf{w}_j
 = 2\eta (\mathbf{x^\mu}-\mathbf{w}_j)
 \end{align*}
 In the batch update rule distances from the data points in the prototype's class are summed up and the prototype is moved towards the mean with step size $\eta$.\\
-After convergence: $\Delta w_k=0$
+After convergence: $\Delta \mathbf{w}_k=0$
 \begin{align*}
-&\sum_{\mu \in C_k}\mathbf{w}_k-\sum_{\mu \in C_k}\mathbf{x}^\mu=N_k\mathbf{w}_k-\sum_{\mu \in C_k}\mathbf{x}^\mu\\
+&\Delta \mathbf{w}_k = \sum_{\mu \in C_k}\mathbf{w}_k-\sum_{\mu \in C_k}\mathbf{x}^\mu=N_k\mathbf{w}_k-\sum_{\mu \in C_k}\mathbf{x}^\mu\\
 &\Rightarrow \mathbf{w}_k=\frac{1}{N_k}\sum_{\mu \in C_k}\mathbf{x}^\mu
 \end{align*}
 So with the batch update rule each prototype is at the center of its data cloud after convergence.\\
-The online update has a stochastic component, because one has to choose a data point at random and move into its direction by the step size $\eta$. This causes the algorithm to jitter around the mean. To alleviate this problem the trick is to reduce $\eta$ so that the algorithm eventually freezes.
+The online update has a stochastic component, because one has to choose a data point at random and move into its direction by the step size $\eta$. This causes the algorithm to jitter around the mean. To alleviate this problem the trick is to reduce $\eta$ so that the algorithm eventually freezes. We could reason on the fact that $\mathbf{w}_k$ is the center of all its assigned data points, so that after $n+1$ points, we have:
+\begin{align*}
+\mathbf{w}_k &= \frac{1}{n+1} \sum \limits_{\mu=1}^{n+1}\mathbf{x}^\mu\\
+&= \frac{1}{n+1}\sum\limits_{\mu=1}^{n}\mathbf{x}^\mu + \frac{1}{n+1}\mathbf{x}^{n+1}
+\end{align*}
+So we have an (approximating) update rule:
+\[\Delta \mathbf{w} = \frac{1}{n+1} \mathbf{x}^{n+1}\]
 \paragraph{Problem of dead units}
-Dead units are prototypes without data clouds. The error surface allows the algorithm to converge into a state permitting dead units through several local minima. To overcome this problem it is useful to initialize the prototypes to data points in k-means.
+Dead units are prototypes without data clouds. The error surface allows the algorithm to converge into a state permitting dead units through several local minima. To overcome this problem it is useful to initialize the prototypes to data points in k-means. (Note that this does not guarantee the avoidance of local minima, the algorithm can still converge to a sub-optimal solution. In practice, the algorithms is sometimes repeated a few times until convergence to overcome this.)
 
 \subsection{Neuronal Implementation of Clustering}
-(now multiple postsynaptic neurons for the same input?)
-In the neuronal implementation the data patterns take the form of sensory inputs to neurons in the brain, one postsynaptic neuron for every prototype $\mathbf{p}_j$. The activity of these neurons is defined by a non-linear neuron-model $v_1^{post}=y_1=g(\sum_k \mathbf{w}_{ik}\mathbf{x}_k^\mu)=g(\mathbf{w}^T\mathbf{x}^\mu)$ which performs a non-linear transform of the scalar product of the prototypes used as weights $\mathbf{w}_j=\mathbf{w}_k$ which are now synaptic weights and the sensory inputs.\\
-For \textsc{normalized weight vectors} the clustering expression $\abs{\mathbf{p}_k-\mathbf{x}}\leq\abs{\mathbf{p}_i-\mathbf{x}}$ can be rewritten to $\mathbf{w}_k^T\mathbf{x}\leq\mathbf{w}_k\mathbf{x}$. This means that the smallest distance to the prototype $\mathbf{w}_k$ results in the largest scalar product. We reformulate our clustering aim to finding the postsynaptic neuron with the maximal scalar product ("biggest total stimulation").
+We now consider multiple postsynaptic neurons, all connected to (at least partially) the same presynaptic neurons.
+In the neuronal implementation the data patterns take the form of sensory inputs to neurons in the brain, one postsynaptic neuron for every prototype $\mathbf{w}_j$. The activity of these neurons is defined by a non-linear neuron-model $v_1^{post}=y_1=g(\sum_k \mathbf{w}_{ik}\mathbf{x}_k^\mu)=g(\mathbf{w}^T\mathbf{x}^\mu)$ which performs a non-linear transform of the scalar product of the prototypes used as weights $\mathbf{w}_j=\mathbf{w}_k$ which are now synaptic weights and the sensory inputs.\\
+For \textsc{normalized weight vectors} the clustering expression $\abs{\mathbf{w}_k-\mathbf{x}}\leq\abs{\mathbf{w}_i-\mathbf{x}}$ can be rewritten to $\mathbf{w}_k^T\mathbf{x}\geq\mathbf{w}_i\mathbf{x}$ (just write the equation for the squares and then expand it). This means that the smallest distance to the prototype $\mathbf{w}_k$ results in the largest scalar product. We reformulate our clustering aim to finding the postsynaptic neuron with the maximal scalar product ("biggest total stimulation").
 
-\paragraph{Winner take all circuit}
-How can it be assured that only one neuron wins, that is to say that the respective input pattern is classified to a single prototype? Simply by introducing a \texttt{lateral term} incorporating activities of the other postsynaptic neurons for the other prototypes. The winner is the neuron that receives the most stimulation from outside (strongest outside drive) inhibiting the others which is equivalent to saying input pattern is classified to the prototype with which it forms the largest scalar product $\mathbf{w}_k\leq\mathbf{x}^\mu$.
+\paragraph{Winner takes all circuit}
+How can it be assured that only one neuron wins, that is to say that the respective input pattern is classified to a single prototype? Simply by introducing a \texttt{lateral term} incorporating activities of the other postsynaptic neurons for the other prototypes. The winner is the neuron that receives the most stimulation from outside (strongest outside drive) inhibiting the others which is equivalent to saying that the input pattern is classified to the prototype with which it forms the largest scalar product $\mathbf{w}_k\cdot\mathbf{x}^\mu$.
 \begin{align*}
-&y_i(t+1)=g(\text{total drive})=g(\sum_k w(t+1)_{ik}\mathbf{x}_k^\mu+\sum_j B_{ij}y(t)_j),\quad B_{ij}<0\\
+&y_i(t+1)=g(\text{total drive})=g(\sum_k w(t+1)_{ik}\mathbf{x}_k^\mu+\sum_j B_{ij}y(t)_j)\\
 &\Rightarrow y_i(t^{final})=\left( \begin{array}{cc} \text{1 for winner}\\\text{0 for others}\end{array} \right)
 \end{align*}
-How to update weights?
+where $B_{ij}<0$ for inhibition (and positive for excitation).
+Remains the question how we should update the weights.
 
-\paragraph{Hebbian Learning Rule (no inhibition)}
-For every pattern $\mathbf{x}^\mu$ find winning prototype $\mathbf{w}_k=\mathbf{p}_k$ and update it according to the following learning rule:
+\paragraph{Hebbian Learning Rule}
+%There is inhibition, since only one w will be updated, it is just not made explicit here.
+For every pattern $\mathbf{x}^\mu$, we assume that the winning prototype, or neuron, is $k$, with weight vector $\mathbf{w}_k$ and update all the weights according to the following (Oja) learning rule:
 \begin{align*}
 \frac{d}{dt}w_{ki}&=\eta(y_k x_i^\mu-\gamma w_{ki}y_k)\\
 &=\eta(\delta_{ki} x_i-w_{ki}\delta_{ki})\\
-&=\eta(x_i-w_{ki})%\\\text{Why can y_k be regarded constant?}
+&=\eta(x_i-w_{ki})
 \end{align*}
-update for winner k (only neuron active) is same eq. as before (k-means), now derived as a hebbian learning rule:
+with $\delta_{ki}$ the Kronecker-delta for equality between $k$ and $i$, as elaborated in the previous paragraph.
+The update for winner k (only neuron active) is now the same as before (k-means), here derived as a Hebbian learning rule:
 \[
 \frac{d}{dt} \mathbf{w}_{k}=\eta(\mathbf{x}^\mu-\mathbf{w}_{k})
 \]
@@ -428,20 +439,21 @@ update for winner k (only neuron active) is same eq. as before (k-means), now de
 \]
 and neighbours j
 \[
-\frac{d}{dt} = \eta \Lambda(j,k)(\mathbf{x}^\mu-\mathbf{w}_j),\quad \text{on-line}
+\frac{d}{dt} = \eta \Lambda(j,k)(\mathbf{x}^\mu-\mathbf{w}_j),\quad \text{online}
 \] Every neighbour j is inhibited according to inhibition coefficients of k for j.
-\item decrease size of neighbourhood function $\Lambda(j,k)$ to ensure convergence?
+\item decrease size of neighbourhood function $\Lambda(j,k)$ to ensure convergence
 \item reiterate from 1) until stabilization
 \end{enumerate}
+Here $\Lambda$ is a neighborhood function, whose value represents the strength of coupling between unit i and unit k during the training process.
 Thus, the neuron whose weight vector was closest to the input vector is updated to be even closer. The result is that the winning neuron is more likely to win the competition the next time a similar vector is presented, and less likely to win when a very different input vector is presented. As more and more inputs are presented, each neuron in the layer closest to a group of input vectors soon adjusts its weight vector toward those input vectors. Eventually, if there are enough neurons, every cluster of similar input vectors will have a neuron that outputs 1 when a vector in the cluster is presented, while outputting a 0 at all other times. Thus, the competitive network learns to categorize the input vectors it sees.
 
 \section{Reinforcement learning}
 
 \subsection{Introduction}
 \paragraph{RL vs. supervised learning}
-Supervised learning, used in statistical pattern recognition and artifical neural networks is learning from examples provided by a knowledgable external supervisor whereas in RL an agent is instructed to learn from its own experience. It is a ''behavioral'' learning problem: Through interaction between the learning system and its environment, whereas the system seeks to achieve a specific goal.
+Supervised learning, used in statistical pattern recognition and artifical neural networks is learning from examples provided by a knowledgable external supervisor whereas in RL an agent is instructed to learn from its own experience. It is a ''behavioral'' learning problem: through interaction between the learning system and its environment, where the system seeks to achieve a specific goal.
 
-\paragraph{trade-off exploration vs. exploitation}
+\paragraph{Trade-off exploration vs. exploitation}
 An agent has to exploit what it \textsc{already knows} in order to obtain a reward, but it also has to \textsc{explore} in order to make \textsc{better action selections} in the future. The agent must try a variety of actions and progressively favour those that appear to be best, because neither schemes can be pursued exclusively without failing a the task. Estimate reward probabilities vs. take action to maximize reward.
 
 \paragraph{RLs main characteristic}
@@ -450,13 +462,13 @@ RL explicitly considers the \textsc{whole} problem of a goal-directed agent \tex
 An agent's actions are permitted to affect the future state of the environment (e.g., the next chess position, the level of reservoirs of the refinery, the next location of the robot), thereby affecting the options and opportunities available to the agent at later times. Correct choice requires taking into account indirect, delayed consequences of actions, and thus may require foresight or planning. The knowledge the agent brings to the task at the start--either from previous experience with related tasks or built into it by design or evolution--influences what is useful or easy to learn, but interaction with the environment is essential for adjusting behavior to exploit specific features of the task.
 
 \subsubsection{Elements of reinforcement learning}
-there are four main subelements of a reinforcement learning system.
+There are four main elements to a reinforcement learning system.
 
 \paragraph{Policy}
-commonly denoted by $\pi$, it defines the learning agents way of behaving at a given time. Mapping from the perceived states of the environment to the actions that present themselves to the agent in these states. The policy alone is sufficient to determine the behaviour of an agent. In oder words, a policy is a rule used by the learning system to decide what to do, given the current state of the environment.
+Commonly denoted by $\pi$, it defines the learning agents way of behaving at a given time. Given a perceived state and possible actions in that state, it will output the action to be taken. The policy alone is sufficient to determine the behaviour of an agent. In other words, a policy is a rule used by the learning system to decide what to do, given the current state of the environment.
 
 \paragraph{Reward function}
-defines the goal in a reinforcement learning problem. Maps each perceived state of the environment to a single number, a reward, which describes the intrinsic desirability of the state. The agent's sole objective is to maximize its total gain from the rewards it receives.\\
+Defines the goal in a reinforcement learning problem. Maps each perceived state of the environment to a single number, a reward, which describes the intrinsic desirability of the state. The agent's sole objective is to maximize its total gain from the rewards it receives.\\
 The reward function may serve as a basis for altering the agent's policy.
 
 \paragraph{Value function}
@@ -482,11 +494,11 @@ Reinforcement learning algorithms model the world as a Markov Decision Problem (
 \end{align*}
 
 \subsection{Reward-based action learning: Q-values}
-In the case of a \texttt{1-step horizon} the agent starts of in an initial state $s$ from where he can get to several states $s_i'$ by choosing an associated action $a_i$. A reward $P_{s \rightarrow s'}^a$ is associated with every action.
+In the case of a \texttt{1-step horizon} the agent starts off in an initial state $s$ where it has the choice between different actions $a_i$. Every (state,action) pair has associated with it a set of possible next states $s_j'$, each of which is reached with a probability $P_{s\rightarrow s_j'}^a$. A reward $R_{s \rightarrow s'}^a$ is associated with a state transition induced by a specific action $a$.
 \paragraph{Goal:} The agent should find the optimal strategy $a^*$ resulting in the maximization $Q(s,a^*) > Q(s, a_j)$ of the expected reward $Q(S,a)=\sum_{s'} P_{s \rightarrow s'}^a R_{s \rightarrow s'}^a$.
 
 \paragraph{Update rule:}
-The Q values are however not known at the beginning, because the reward probabilities $P_{s \rightarrow s'}^a$ are not known. Therefore, the agent needs to learn them via iterative updates: 
+The Q values are however not known at the beginning, because the reward probabilities $P_{s \rightarrow s'}^a$ are not known. Therefore, the agent needs to estimate them and improve this estimate via iterative updates: 
 \[
 \Delta Q(s,a) = \eta\left[R_{s \rightarrow s'}^a-Q(s,a)\right]=\eta\left[r-Q(s,a)\right]
 \]
@@ -506,14 +518,15 @@ The Bellman equation expresses the expected reward $Q(s,a)$ recursively over an 
 \[
 	Q(s,a) = \sum_{s'}P_{s \rightarrow s'}^a [R^a_{s \rightarrow s'} + \gamma \sum_{a'} \pi(s',a')Q(s',a')]
 \]
-The $Q(s',a')$ are weighted differently according to the chosen policy $\pi(s,a)$ derived from $Q(s,a)$.
+The $Q(s',a')$ are weighted differently according to the chosen policy $\pi(s,a)$ derived from $Q(s,a)$.\\
+It can be shown that aftter the mean update, using the learning rule described above, has converged, yields Q-values that solve the Bellman equation.
 
 \paragraph{SARSA algorithm}
 The Bellman equation can be used for the SARSA algorithm implementing the SARSA update rule:
 \begin{enumerate}
-	\item Being in state s, chose action a according to \textbf{policy}
-	\item Observe reward r, next state s'
-	\item Choose action a' in state s' according to \textbf{policy}
+	\item Being in state $s$, choose action $a$ according to \textbf{policy}
+	\item Observe reward $r$, next state $s'$
+	\item Choose action $a'$ in state $s'$ according to \textbf{policy}
 	\item Update $\Delta Q(s,a)$
 	\item $s' \rightarrow s$, $a' \rightarrow a$
 	\item Goto 1)
@@ -555,7 +568,7 @@ The difference between $Q$ and $V$ is the following: The value function is the e
 
 \subsection{On-policy vs off-policy learning}
 \textsc{TODO: part doesn't fully match slides?}\\
-On-policy means SARSA; off-policy means Q-learning. The difference lies in the method used to compute the update for $Q(s,a)$. While for SARSA, we use the policy $\pi$ to select the action $a'$ for the discounted term ($\gamma \sum_{a'} \pi(s',a')Q(s',a')$), the Q-learning algorithm simply uses the greedy approach to select $a'$. Off-policy Q-learning by default uses a greedy update rule and the policy derived from $Q$ is only employed for selection of the first action a from the current state:
+On-policy means SARSA; off-policy means Q-learning. The difference lies in the method used to compute the update for $Q(s,a)$. While for SARSA, we use the policy $\pi$ to select the action $a'$ for the discount term ($\gamma \sum_{a'} \pi(s',a')Q(s',a')$), the Q-learning algorithm simply uses the greedy approach to select $a'$. Off-policy Q-learning by default uses a greedy update rule and the policy derived from $Q$ is only employed for selection of the first action a from the current state:
 \[
 \Delta Q(s,a)=\alpha\left[r(a)+\gamma\underset{a'}{\text{max}} Q(s',a')-Q(s,a)\right]
 \]
@@ -567,8 +580,8 @@ An eligibility trace is a temporary record of the \texttt{occurrence of an event
 At the moment of the reward update, we want to also update previous action values along trajectories, because otherwise the information diffusion across several states takes too much time.
 Every time an action $a$ is chosen according to a policy, the eligibility traces are evaluated thus: 
 \begin{itemize}
-	\item If a = action taken in state j: $e(j,a)(t) = \gamma\lambda e(j,a)(t-\Delta t) + 1$
-	\item else: $e(s,a)(t) = \gamma \lambda e_(s,a)(t-\Delta t)$ 
+	\item If $a$ = action taken in state $j$: $e_{(j,a)}(t) = \gamma\lambda e_{(j,a)}(t-\Delta t) + 1$
+	\item else: $e_{(j,a)}(t) = \gamma \lambda e_{(j,a)}(t-\Delta t)$ 
 \end{itemize}
 The $\gamma$ here is the memory reduction parameter.\\
 Then, for all states s and actions a use the respective eligibility trace as an additional coefficient for the SARSA update rule with TD error $\delta_t=r_{t}+\gamma Q(s',a')-Q(s,a)$.
@@ -577,13 +590,13 @@ Then, for all states s and actions a use the respective eligibility trace as an 
 \]
 
 \subsection{Continuous states}
-Q-values for continuous states approximation by a weighted sum of basis functions
+Q-values for continuous states can be approximated by a weighted sum of basis functions
 % needs some more explanation, I didn't fully get it.
 \[
 	Q(s,a) = \sum_j w_{aj}*r_j(s) = \sum_j w_{aj}*\phi(s-s_j)
 \]
-$s_j$ center of basis function, $\Phi$ shape of basis functions - determines how much of the weights are used.\\
-If the time interval between subsequent weight updates approaches zero, the difference between two consecutive states $s' - s = v(a) * \Delta t$, where $v(a)$ is the velocity resulting from the choice of the action a. $s'-s$ approximates zero, therefore $s' \approx s$. Similarly, the finer the time resolution becomes, the likelier it is that $a \approx a'$. Thus, for small time steps, an online gradient descent on the error term $E_t$ becomes closer to a $\delta_t$ modulated Hebbian rule. 
+with $s_j$ the center of the basis function, $\Phi$ the basis function which determine how much of the weights is used.\\
+If the time interval between subsequent weight updates approaches zero, the difference between two consecutive states becomes $s' - s = v(a) * \Delta t$, where $v(a)$ is the velocity resulting from the choice of the action $a$. Then $s'-s$ approximates zero, therefore $s' \approx s$. Similarly, the finer the time resolution becomes, the more likely it is that $a \approx a'$. Thus, for small time steps, an online gradient descent on the error term $E_t$ becomes closer to a $\delta_t$ modulated Hebbian rule. \\
 \textsc{TODO: Exercise} $\frac{dQ(s',a')}{dw_{aj}}$
 
 \subsection{Temporal Difference TD($\lambda$) algorithms}
