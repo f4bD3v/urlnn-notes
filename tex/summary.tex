@@ -51,7 +51,7 @@ change in a given synaptic weight is proportional to both the pre-synaptic input
 %source: http://icwww.epfl.ch/~gerstner/SPNM/node71.html
 Synaptic plasticity is basically the change in connection strength of the synapses over time. According to the Hebbian learning rule, its changes are governed by the following postulate:
 \begin{quote}{Hebb, 1949:}
-\textit{"When an \textcolor{red}{axon} of cell \textcolor{red}{j} repeatedly or persistently takes part in firing (through \textcolor{blue}{synapses} to \textcolor{green}{dendrites} of) cell \textcolor{green}{i}, then \textcolor{red}{j's} efficiency as one of the cells firing is increased"}.
+\textit{"When an \textcolor{red}{axon} of cell \textcolor{red}{j} repeatedly or persistently takes part in firing (through \textcolor{green}{synapses} to \textcolor{blue}{dendrites} of) cell \textcolor{blue}{i}, then \textcolor{red}{j's} efficiency as one of the cells firing \textcolor{blue}{i} is increased"}.
 \end{quote}
 The Hebbian learning rule is a local \textsc{unsupervised learning} rule, because it depends solely on the states of the respective pre-synaptic i and post-synaptic j neurons and the present efficacy $w_{ij}$, but not on the state of other neurons k. The respective pre-synaptic neurons and post-synaptic neuron can however be simultaneously active, so that correlations in their activity lead to firing of the neuronal cell \textcolor{red}{i}. In Hebbian learning these correlations are used to learn the synaptic transmission efficacies $w_{ij}$, so that in essence it is correlation-based learning. (A rigorous derivation is presented in Section \ref{sec:correlationDerivation}.)
 
