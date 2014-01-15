@@ -51,7 +51,7 @@ change in a given synaptic weight is proportional to both the pre-synaptic input
 %source: http://icwww.epfl.ch/~gerstner/SPNM/node71.html
 Synaptic plasticity is basically the change in connection strength of the synapses over time. According to the Hebbian learning rule, its changes are governed by the following postulate:
 \begin{quote}{Hebb, 1949:}
-\textit{"When an \textcolor{red}{axon} of cell \textcolor{red}{j} repeatedly or persistently takes part in firing (through \textcolor{blue}{synapses} to \textcolor{green}{dendrites} of) cell \textcolor{green}{i}, then \textcolor{red}{j's} efficiency as one of the cells firing is increased"}.
+\textit{"When an \textcolor{red}{axon} of cell \textcolor{red}{j} repeatedly or persistently takes part in firing (through \textcolor{green}{synapses} to \textcolor{blue}{dendrites} of) cell \textcolor{blue}{i}, then \textcolor{red}{j's} efficiency as one of the cells firing \textcolor{blue}{i} is increased"}.
 \end{quote}
 The Hebbian learning rule is a local \textsc{unsupervised learning} rule, because it depends solely on the states of the respective pre-synaptic i and post-synaptic j neurons and the present efficacy $w_{ij}$, but not on the state of other neurons k. The respective pre-synaptic neurons and post-synaptic neuron can however be simultaneously active, so that correlations in their activity lead to firing of the neuronal cell \textcolor{red}{i}. In Hebbian learning these correlations are used to learn the synaptic transmission efficacies $w_{ij}$, so that in essence it is correlation-based learning. (A rigorous derivation is presented in Section \ref{sec:correlationDerivation}.)
 
@@ -564,6 +564,9 @@ The Bellman equation for state values V becomes:
 	&=\sum_a \pi(s,a) \sum_{s'} P_{s \rightarrow s'}^a[R_{s \rightarrow s'}^a + \gamma V^{\pi}(s')],\quad\text{in form of itself}
 \end{align*}
 The difference between $Q$ and $V$ is the following: The value function is the expected return starting from state $s_t$ and following the policy $\pi$. The state-action value function $Q(s,a)$ is the expected return starting from state $s_t$, taking action $a$ and \texttt{only thereafter} following policy $\pi$.
+\[
+	\Delta V^\pi(s)=\eta \delta(s)=\eta(R_{s \rightarrow s'}^a - V(s)+\gamma V(s'))
+\]
 \textsc{We however use the state-action values $Q$ instead of the mere state values $V$}
 
 \subsection{On-policy vs off-policy learning}
@@ -575,28 +578,32 @@ On-policy means SARSA; off-policy means Q-learning. The difference lies in the m
 The \texttt{Problem} with these algorithms is that learning is slow, that is to say the propagation of Q-values is slow.
 
 \subsection{Eligibility traces}
-An eligibility trace is a temporary record of the \texttt{occurrence of an event}, such as the visiting of a state or the \texttt{taking of an action} (relevant in our case). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes by weighting the learning rule accordingly.\\ 
+An eligibility trace is a temporary record of the \texttt{occurrence of an event}, such as the visiting of a state or the \texttt{taking of an action in a state} (relevant in our case). The trace marks the memory parameters associated with the event as eligible for undergoing learning changes by weighting the learning rule accordingly.\\ 
 %The more theoretical view is that they are a bridge from Temporal differences (TD) to Monte Carlo methods.
 At the moment of the reward update, we want to also update previous action values along trajectories, because otherwise the information diffusion across several states takes too much time.
-Every time an action $a$ is chosen according to a policy, the eligibility traces are evaluated thus: 
+Every time an action $a$ is chosen according to a policy, the eligibility traces/memories are reduced by a factor $\lambda$, except for the memory corresponding to current state $j$ and action $a^*$ which is additionally incremented by 1.
 \begin{itemize}
-	\item If $a$ = action taken in state $j$: $e_{(j,a)}(t) = \gamma\lambda e_{(j,a)}(t-\Delta t) + 1$
-	\item else: $e_{(j,a)}(t) = \gamma \lambda e_{(j,a)}(t-\Delta t)$ 
+	\item If a = action taken in state j: $e_{(j,a^*)}(t) = \gamma\lambda e_{(j,a^*)}(t-\Delta t) + 1$
+	\item else: $e_{(s,a)}(t) = \gamma \lambda e_{(s,a)}(t-\Delta t)$ 
 \end{itemize}
 The $\gamma$ here is the memory reduction parameter.\\
-Then, for all states s and actions a use the respective eligibility trace as an additional coefficient for the SARSA update rule with TD error $\delta_t=r_{t}+\gamma Q(s',a')-Q(s,a)$.
+Now, unlike the case without eligibility traces, for all states s and actions a we use the respective eligibility trace as an additional coefficient for the SARSA update rule and modify the TD error to be $\delta_t=r_t+\gamma Q(s',a')-Q(j,a^*)$.
 \[
-	\Delta Q(s,a) = \eta \delta_t e(j,a)
+	\Delta Q(s,a) = \eta \delta_t e(j,a)= \eta \left[r_t+\gamma Q(s',a')-Q(j,a^*)\right]e(s,a),\quad \forall(s,a)
 \]
+Reset eligibility traces at the beginning of each trial.
 
 \subsection{Continuous states}
-Q-values for continuous states can be approximated by a weighted sum of basis functions
+The state-action value function Q(s,a) for continuous states is approximated by a weighted sum of basis functions
 % needs some more explanation, I didn't fully get it.
 \[
 	Q(s,a) = \sum_j w_{aj}*r_j(s) = \sum_j w_{aj}*\phi(s-s_j)
 \]
-with $s_j$ the center of the basis function, $\Phi$ the basis function which determine how much of the weights is used.\\
-If the time interval between subsequent weight updates approaches zero, the difference between two consecutive states becomes $s' - s = v(a) * \Delta t$, where $v(a)$ is the velocity resulting from the choice of the action $a$. Then $s'-s$ approximates zero, therefore $s' \approx s$. Similarly, the finer the time resolution becomes, the more likely it is that $a \approx a'$. Thus, for small time steps, an online gradient descent on the error term $E_t$ becomes closer to a $\delta_t$ modulated Hebbian rule. \\
+%with $s_j$ the center of the basis function, $\Phi$ the basis function which determine how much of the weights is used.\\
+$s_j$ center of basis function, $\Phi$ shape of basis functions - determines how much of the weights are used (expresses the importance of following states $s_i$ with respect to current s, "the signal/reward these states give to the current state", $\Phi(s-s_j)$ activation of pre-synaptic neuron) $\Rightarrow$ weights will become specific to certain action resulting in specific reward which has most influence on Q-value of current state.\\
+If the time interval between subsequent weight updates approaches zero, the difference between two consecutive states $s' - s = v(a) * \Delta t$, where $v(a)$ is the velocity resulting from the choice of the action a. $s'-s$ approximates zero, therefore $s' \approx s$. Similarly, the finer the time resolution becomes, the likelier it is that $a \approx a'$. Thus, for small time steps, an online gradient descent on the error term $E_t$ becomes closer to a $\delta_t$ modulated Hebbian rule (check sheet 8, ex.5). 
+$\frac{dQ(s',a')}{dw_{aj}}=\Phi(s-s_j)$, the direction of the gradient is the basis function itself.
+
 \textsc{TODO: Exercise} $\frac{dQ(s',a')}{dw_{aj}}$
 
 \subsection{Temporal Difference TD($\lambda$) algorithms}
